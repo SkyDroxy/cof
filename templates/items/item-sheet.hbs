@@ -1,0 +1,77 @@
+{{!log 'item-sheet' this}}
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header flexrow header-background no-wrap">
+        <img class="profile" src="{{item.img}}" title="{{item.name}}" data-edit="img">
+        <div class="header-details flexrow">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Item Name"/>
+            </h1>
+            <div class="item-subtitle">
+                <h4 class="item-type">{{localize (concat "COF.category." item.type)}}</h4>
+                <span class="item-status">
+                    {{#if item.subtype}}
+                        {{localize (concat "COF.category." item.subtype)}}
+                    {{/if}}
+                </span>
+            </div>
+            <ul class="summary flexrow">
+                <li>
+                    {{#if system.source}}
+                        <input type="text" name="system.source" value="{{system.source}}" placeholder="{{ localize 'COF.ui.source' }}"/>
+                    {{else}}
+                        <input type="text" name="system.source" value="{{ localize 'COF.ui.na' }}" placeholder="{{ localize 'COF.ui.source' }}"/>
+                    {{/if}}
+                </li>
+                {{#if (equals item.type "item")}}
+                    {{#if (not (equals item.system.subtype "spell"))}}
+                    <li>
+                        {{#if system.rarity}}
+                            {{localize (concat "COF.rarity." system.rarity)}}
+                        {{else}}
+                            {{localize "COF.ui.na"}}
+                        {{/if}}
+                    </li>
+                    {{/if}}
+                {{/if}}
+            </ul>
+        </div>
+    </header>
+    {{#if (isNotLimited @root)}}
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-navigation tabs" data-group="primary">
+        <a class="item active" data-tab="description">{{localize "COF.tabs.description"}}</a>
+        <a class="item" data-tab="details">{{localize "COF.tabs.details"}}</a>
+        <a class="item" data-tab="effets">{{localize "COF.tabs.effects"}}</a>
+    </nav>
+    {{/if}}
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        <div class="tab flexrow active" data-group="primary" data-tab="description">
+            {{> "systems/cof/templates/items/parts/properties/item-properties.hbs"}}
+            {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
+        </div>
+
+        {{#if (isNotLimited @root)}}
+            <div class="tab details" data-group="primary" data-tab="details">
+                {{#if (equals item.type "item")}}
+                    {{> "systems/cof/templates/items/parts/details/item-details.hbs"}}
+                {{/if}}
+                {{#if (equals item.type "capacity")}}
+                    {{> "systems/cof/templates/items/parts/details/capacity-details.hbs"}}
+                {{/if}}
+                {{#if (equals item.type "path")}}
+                    {{> "systems/cof/templates/items/parts/details/path-details.hbs"}}
+                {{/if}}
+                {{#if (equals item.type "profile")}}
+                    {{> "systems/cof/templates/items/parts/details/profile-details.hbs"}}
+                {{/if}}
+                {{#if (equals item.type "species")}}
+                    {{> "systems/cof/templates/items/parts/details/species-details.hbs"}}
+                {{/if}}
+            </div>
+            <div class="tab" data-group="primary" data-tab="effets">
+                {{> "systems/cof/templates/effects/effects.hbs"}}            
+            </div>
+        {{/if}}   
+    </section>
+</form>

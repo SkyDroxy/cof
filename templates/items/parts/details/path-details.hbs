@@ -1,0 +1,40 @@
+<h3 class="form-header">{{localize "COF.ui.properties"}}</h3>
+<input class="field-value" name="system.key" type="hidden" value="{{item.system.key}}" placeholder="{{ localize "COF.ui.key" }}" data-dtype="String">
+
+<div class="form-group stacked">
+    <label>Type</label>
+    <div class="form-fields">
+        <label class="checkbox"><input type="checkbox" name="system.properties.profile" {{checked system.properties.profile}}> {{localize "COF.properties.profile"}}</label>
+        <label class="checkbox"><input type="checkbox" name="system.properties.prestige" {{checked system.properties.prestige}}> {{localize "COF.properties.prestige"}}</label>
+        <label class="checkbox"><input type="checkbox" name="system.properties.alternative" {{checked system.properties.alternative}}> {{localize "COF.properties.alternative"}}</label>
+        <label class="checkbox"><input type="checkbox" name="system.properties.racial" {{checked system.properties.racial}}> {{localize "COF.properties.racial"}}</label>
+        <label class="checkbox"><input type="checkbox" name="system.properties.creature" {{checked system.properties.creature}}> {{localize "COF.properties.creature"}}</label>
+    </div>
+</div>
+
+<ol class="inventory-list">
+    <li class="inventory-header flexrow">
+        <h3 class="item-name flexrow">{{localize "COF.ui.capacities"}}</h3>
+        <div class="item-detail"></div>
+        <div class="item-detail item-rank">{{localize "COF.ui.rank"}}</div>
+        <div class="item-controls">
+            <a class="item-control item-create cof-compendium-pack" data-pack="capacities" data-open="0" title="Ajouter une capacité"><i class="fas fa-plus"></i>&nbsp; {{localize "COF.ui.add"}}</a>
+        </div>
+    </li>
+    {{#each system.capacities as |capacity id|}}
+    <ol class="item-list">
+        <li class="item flexrow" data-item-id="{{capacity._id}}" data-item-uuid="{{capacity.sourceId}}" data-item-type="capacity" draggable="true">
+            <div class="item-name flexrow">
+                <div class="item-image" style="background-image: url('{{capacity.img}}')"></div>
+                <h4>{{capacity.name}}</h4>
+            </div>
+            <div class="item-detail"></div>
+            <div class="item-detail item-rank">{{add id 1}}</div>
+            <div class="item-controls">
+                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+    </ol>
+    {{/each}}
+</ol>

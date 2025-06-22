@@ -1,0 +1,58 @@
+<h3 class="form-header">Propriétés d'armes</h3>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.skill"}}</label>
+    <div class="form-fields">
+        <select name="system.skill" data-type="String" style="width:100%">
+            {{selectOptions config.SKILL selected=system.skill localize=true}}
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.skillBonus"}}</label>
+    <div class="form-fields">
+        <input name="system.skillBonus" type="text" value="{{numberFormat system.skillBonus decimals=0 sign=true}}" placeholder="{{localize "COF.ui.skillBonus"}}" data-dtype="Number">
+    </div>
+</div>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.dmgBase"}}</label>
+    <div class="form-fields">
+        <input name="system.dmgBase" type="text" value="{{system.dmgBase}}" placeholder="{{localize "COF.ui.dmgBase"}}" data-dtype="String">
+    </div>
+</div>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.dmgStat"}}</label>
+    <div class="form-fields">
+        <select name="system.dmgStat" data-type="String" style="width:100%">
+            {{selectOptions config.DAMAGE_STAT selected=system.dmgStat localize=true blank="COF.None"}}
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.dmgBonus"}}</label>
+    <div class="form-fields">
+        <input name="system.dmgBonus" type="text" value="{{numberFormat system.dmgBonus decimals=0 sign=true}}" placeholder="{{localize "COF.ui.dmgBonus"}}" data-dtype="Number">
+    </div>
+</div>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.critrange"}}</label>
+    <div class="form-fields">
+        <input name="system.critrange" type="text" value="{{system.critrange}}" placeholder="{{localize "COF.ui.critrange"}}" data-dtype="String">
+    </div>
+</div>
+<div class="form-group">
+    <label>{{localize "COF.ui.properties"}}</label>
+    <div class="form-fields">
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.bashing" {{checked item.system.properties.bashing}}> {{localize "COF.properties.bashing"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.13strmin" {{checked item.system.properties.13strmin}}> {{localize "COF.properties.13strmin"}}
+        </label>
+    </div>
+</div>

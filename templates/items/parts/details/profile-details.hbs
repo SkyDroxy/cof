@@ -1,0 +1,74 @@
+<h3 class="form-header">{{localize "COF.ui.properties"}}</h3>
+<input class="field-value" name="system.key" type="hidden" value="{{item.system.key}}" placeholder="{{ localize "COF.ui.key" }}" data-dtype="String">
+<div class="form-group">
+    <label>{{localize "COF.ui.hd"}}</label>
+    <div class="form-fields">
+        <select name="system.dv" data-type="String" style="width:100%">
+            {{selectOptions config.DICE_VALUES selected=system.dv localize=true blank="COF.None"}}
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.spellcasting"}}</label>
+    <div class="form-fields">
+        <select name="system.spellcasting" data-type="String" style="width:100%">
+            {{selectOptions config.SPELLCASTING selected=system.spellcasting localize=true blank="COF.None"}}
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.mpfactor"}}</label>
+    <div class="form-fields">
+        <select name="system.mpfactor" data-type="Number" style="width:100%">
+            {{selectOptions config.MP_FACTOR selected=system.mpfactor}}
+        </select>
+    </div>
+</div>
+
+<h3 class="form-header">{{localize "COF.weapons.skills"}}</h3>
+<div class="form-group stacked">
+    <label>{{localize "COF.category.melee-plural"}}</label>
+    <div class="form-fields">
+        <label class="checkbox"> <input type="checkbox" name="system.proficiencies.daggers" {{checked item.system.proficiencies.daggers}}> {{localize "COF.weapons.daggers"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.swords" {{checked item.system.proficiencies.swords}}> {{localize "COF.weapons.swords"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.axes" {{checked item.system.proficiencies.axes}}> {{localize "COF.weapons.axes"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.staves" {{checked item.system.proficiencies.staves}}> {{localize "COF.weapons.staves"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.clubs" {{checked item.system.proficiencies.clubs}}> {{localize "COF.weapons.clubs"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.hammers" {{checked item.system.proficiencies.hammers}}> {{localize "COF.weapons.hammers"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.katanas" {{checked item.system.proficiencies.katanas}}> {{localize "COF.weapons.katanas"}} </label>
+        <label class="checkbox"> <input type="checkbox" name="system.proficiencies.2-hands" {{checked item.system.proficiencies.2-hands}}> {{localize "COF.weapons.twoHands"}} </label>
+    </div>
+</div>
+<div class="form-group stacked">
+    <label>{{localize "COF.category.ranged-plural"}}</label>
+    <div class="form-fields">
+        <label class="checkbox"> <input type="checkbox" name="system.proficiencies.slings" {{checked item.system.proficiencies.slings}}> {{localize "COF.weapons.slings"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.bows" {{checked item.system.proficiencies.bows}}> {{localize "COF.weapons.bows"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.crossbows" {{checked item.system.proficiencies.crossbows}}> {{localize "COF.weapons.crossbows"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.throwing-weapons" {{checked item.system.proficiencies.throwing-weapons}}> {{localize "COF.weapons.throwing"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.powder-weapons" {{checked item.system.proficiencies.powder-weapons}}>{{localize "COF.weapons.powder"}} </label>
+    </div>
+</div>
+<div class="form-group stacked">
+    <label>{{localize "COF.category.armor-plural"}}</label>
+    <div class="form-fields">
+        <label class="checkbox"> <input type="checkbox" name="system.proficiencies.soft-leather" {{checked item.system.proficiencies.soft-leather}}> {{localize "COF.armors.softLeather"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.studded-leather" {{checked item.system.proficiencies.studded-leather}}> {{localize "COF.armors.studdedLeather"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.mail" {{checked item.system.proficiencies.mail}}> {{localize "COF.armors.mail"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.half-plate" {{checked item.system.proficiencies.half-plate}}> {{localize "COF.armors.halfPlate"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.full-plate" {{checked item.system.proficiencies.full-plate}}> {{localize "COF.armors.fullPlate"}} </label> <label class="checkbox"> <input type="checkbox" name="system.proficiencies.shield" {{checked item.system.proficiencies.shield}}> {{localize "COF.armors.shield"}} </label>
+    </div>
+</div>
+
+<h3 class="form-header">{{localize "COF.attributes.resources.label"}}</h3>
+
+<ol class="inventory-list">
+    <li class="inventory-header flexrow">
+        <h3 class="item-name flexrow">{{localize "COF.tabs.paths"}}</h3>
+        <div class="item-controls">
+            <a class="item-control item-create cof-compendium-pack" data-pack="paths" data-open="0" title="{{localize "COF.path.add"}}"><i class="fas fa-plus"></i>&nbsp; {{localize "COF.ui.add"}}</a>
+        </div>
+    </li>
+{{#each system.paths as |path id|}}
+    <ol class="item-list">
+        <li class="item flexrow" data-item-id="{{path._id}}" data-item-uuid="{{path.sourceId}}" data-item-type="path" data-key="{{path.system.key}}" draggable="true">
+            <div class="item-name flexrow">
+                <div class="item-image" style="background-image: url('{{path.img}}')"></div>
+                <h4>{{path.name}}</h4>
+            </div>
+            <div class="item-controls">
+                <a class="item-control item-edit" title="{{localize "COF.path.edit"}}"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="{{localize "COF.path.delete"}}"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+    </ol>
+{{/each}}
+</ol>

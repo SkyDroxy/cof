@@ -1,0 +1,318 @@
+/* ----------------------------------------- */
+/*  Layout                                   */
+/* ----------------------------------------- */
+.window-content {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+
+  &>form {
+    padding: 0;
+    margin: 0;
+    min-height: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+
+    .wrap {
+      padding: 0;
+      margin: 0;
+      min-height: 100%;
+      height: 100%;
+      max-height: 100%;
+      overflow: hidden;
+
+      .header {
+        .header-background {
+          //display:none;
+          min-height: 65px;
+          height: 65px;
+          max-height: 65px;
+
+          #banner {
+            min-height: 65px;
+            height: 65px;
+            max-height: 65px;
+          }
+
+          #banner-left {
+            //float:right;
+            min-width: 331px;
+            width: 331px;
+            max-width: 331px;
+            min-height: 65px;
+            height: 65px;
+            max-height: 65px;
+          }
+
+          #banner-right {
+            float: right;
+            min-width: 331px;
+            width: 331px;
+            max-width: 331px;
+            min-height: 65px;
+            height: 65px;
+            max-height: 65px;
+          }
+        }
+
+        #logo-banner {
+          margin-top: -55px;
+          min-height: 65px;
+          height: 65px;
+          max-height: 65px;
+
+          & > img {
+            min-width: 300px;
+            width: 300px;
+            max-width: 300px;
+            min-height: 100px;
+            height: 100px;
+            max-height: 100px;
+          }
+        }
+      }
+
+      .main {
+        flex-wrap: nowrap;
+        padding: 0;
+        overflow: hidden;
+        margin: -10px 0 0 0;
+        height: calc(100% - 95px);
+        min-height: calc(100% - 95px);
+        max-height: calc(100% - 95px);
+
+        .sidebar {
+          max-width: 250px;
+          padding: 0 5px 0 5px;
+          height: 100%;
+
+          .profile-img {
+            cursor: pointer;
+            border: none;
+            margin-top: 5px;
+            margin-left: 0;
+            flex: 0 0 240px;
+          }
+        }
+
+        .separator {
+          min-width: 7px;
+          width: 7px;
+          max-width: 7px;
+          height: 100%;
+        }
+
+        .content {
+          margin: 0;
+          padding: 30px 5px 5px 5px;
+          height: 100%;
+          min-height: 100%;
+          max-height: 100%;
+
+          .top {
+            padding: 0;
+          }
+
+          .sheet-body {
+            padding: 0;
+            margin: 0;
+            min-height: calc(100% - 130px);
+            height: calc(100% - 130px);
+            max-height: calc(100% - 130px);
+            overflow: auto;
+            border-bottom: 1px inset @c-border;
+
+            &.loot-sheet {
+              min-height: calc(100% - 60px);
+              height: calc(100% - 60px);
+              max-height: calc(100% - 60px);
+            }
+
+            .tab {
+              height: 100%;
+              min-height: 100%;
+              max-height: 100%;
+              overflow: auto;
+              margin: 0;
+              padding: 5px 0 0 0;
+
+              &.capacities {
+                overflow: auto;
+
+                .path-list {
+                  box-shadow: 0 4px 3px -3px gray;
+                  margin: 0 0 5px 0;
+                  padding: 3px;
+                  overflow: hidden;
+
+                  .grid {
+                    overflow: auto;
+                  }
+
+                  &.encounter {
+                    min-height: 100px;
+                    height: 100px;
+                    max-height: 100px;
+                    overflow: hidden;
+
+                    .grid {
+                      min-height: 100px;
+                      height: 100px;
+                      max-height: 100px;
+                      overflow: auto;
+                    }
+                  }
+
+                }
+                .capacity-toolbar {
+                  height:25px;
+                  padding: 0;
+                  margin:0;
+
+                  .capacity-tools {
+                    height:25px;
+                    padding: 0;
+                    margin:0;
+
+                    .capacity-tool{
+                      height:20px;
+                      padding:2px;
+                    }
+                  }
+                }
+
+                .capacity-list {
+                  min-height:calc(100% - 220px);
+                  height:calc(100% - 220px);
+                  max-height:calc(100% - 220px);
+                  overflow: auto;
+                  &.p0{
+                    min-height:calc(100% - 15px);
+                    height:calc(100% - 15px);
+                    max-height:calc(100% - 15px);
+                  }
+                  &.p1{
+                    min-height:calc(100% - 120px);
+                    height:calc(100% - 120px);
+                    max-height:calc(100% - 120px);
+                  }
+                  &.p2{
+                    min-height:calc(100% - 145px);
+                    height:calc(100% - 145px);
+                    max-height:calc(100% - 145px);
+                  }
+                  &.p3{
+                    min-height:calc(100% - 170px);
+                    height:calc(100% - 170px);
+                    max-height:calc(100% - 170px);
+                  }
+                  &.p4{
+                    min-height:calc(100% - 195px);
+                    height:calc(100% - 195px);
+                    max-height:calc(100% - 195px);
+                  }
+                  &.p5{
+                    min-height:calc(100% - 220px);
+                    height:calc(100% - 220px);
+                    max-height:calc(100% - 220px);
+                  }
+                  &.p6{
+                    min-height:calc(100% - 245px);
+                    height:calc(100% - 245px);
+                    max-height:calc(100% - 245px);
+                  }
+                  &.p7{
+                    min-height:calc(100% - 265px);
+                    height:calc(100% - 265px);
+                    max-height:calc(100% - 265px);
+                  }
+                  &.p8{
+                    min-height:calc(100% - 290px);
+                    height:calc(100% - 290px);
+                    max-height:calc(100% - 290px);
+                  }
+                  &.p9{
+                    min-height:calc(100% - 315px);
+                    height:calc(100% - 315px);
+                    max-height:calc(100% - 315px);
+                  }
+                  &.p10{
+                    min-height:calc(100% - 340px);
+                    height:calc(100% - 340px);
+                    max-height:calc(100% - 340px);
+                  }
+                }
+              }
+
+              &.effects {
+                .effect-icon {
+                  background-color: black;
+                }
+              }
+
+              &.description {
+                .editor {
+                  margin: 0;
+                  overflow: hidden;
+                  min-height: calc(100% - 225px);
+                  height: calc(100% - 225px);
+                  max-height: calc(100% - 225px);
+
+                  .editor-content {
+                    padding: 5px;
+                    margin: 0;
+                    overflow: auto;
+                    height: 100%;
+                    min-height: 100%;
+                    max-height: 100%;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.table-header {
+  font-weight: bold;
+  min-height: 28px;
+  height: 28px;
+  max-height: 28px;
+}
+
+.half-spacer {
+  min-height: 14px;
+  height: 14px;
+  max-height: 14px;
+}
+
+.spacer {
+  min-height: 28px;
+  height: 28px;
+  max-height: 28px;
+}
+
+.layout {
+  padding: 5px;
+}
+
+.weapon-image {
+  background-image: url('../ui/icons/attack.webp');
+}
+
+.locked {
+  cursor: not-allowed;
+  color:lightgray;
+}
+
+.unlocked {
+  cursor: pointer;
+  color:@colorOlive;
+}

@@ -1,0 +1,68 @@
+<h3 class="form-header">{{localize "COF.ui.equipment"}}</h3>
+
+<div class="form-group">
+    <label>{{localize "COF.ui.properties"}}</label>
+    <div class="form-fields">
+        <label class="checkbox"> <input type="checkbox" name="system.properties.equipable" {{checked system.properties.equipable}}> {{localize "COF.ui.equipable"}}</label>
+{{#if (not system.properties.unique)}}
+        <label class="checkbox"> <input type="checkbox" name="system.properties.stackable" {{checked system.properties.stackable}}> {{localize "COF.ui.stackable"}}</label>
+{{/if}}
+{{#if (not system.properties.stackable)}}
+        <label class="checkbox"> <input type="checkbox" name="system.properties.unique"    {{checked system.properties.unique}}> {{localize "COF.properties.unique"}}</label>
+{{/if}}
+        <label class="checkbox"><input type="checkbox" name="system.properties.consumable" {{checked system.properties.consumable}}> {{localize "COF.properties.consumable"}}</label>
+        <label class="checkbox"> <input type="checkbox" name="system.properties.tailored"  {{checked system.properties.tailored}}> {{localize "COF.properties.tailored"}}</label>
+        <label class="checkbox"><input type="checkbox" name="system.properties.2H" {{checked system.properties.2H}}> {{localize "COF.ui.2H"}}</label>
+    </div>
+</div>
+{{#if system.properties.equipable}}
+    <div class="form-group">
+        <label>{{localize "COF.ui.slot"}}</label>
+        <div class="form-fields">
+            <select name="system.slot" data-type="String" style="width:100%">
+                {{selectOptions config.itemSlots selected=system.slot localize=true}}
+            </select>
+        </div>
+    </div>
+{{/if}}
+{{#if (equals system.subtype "container")}}
+    <div class="form-group">
+        <label>{{ localize "COF.ui.capacity" }}</label>&nbsp; <input type="number" name="system.capacity" value="{{system.capacity}}" data-dtype="Number"/>
+    </div>
+{{/if}}
+{{#if system.properties.stackable}}
+    <div class="form-group">
+        <label>{{ localize "COF.ui.quantity" }}</label>
+        <div class="form-fields">
+            <input type="number" name="system.qty" value="{{system.qty}}" placeholder="{{localize "COF.ui.quantity"}}" data-dtype="Number"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "COF.ui.stacksize"}}</label>
+        <div class="form-fields">
+            <input name="system.stacksize" type="text" value="{{system.stacksize}}" placeholder="{{localize "COF.placeholders.stacksize"}}" data-dtype="Number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "COF.ui.deleteWhen0"}}</label>
+        <div class="form-fields">
+            <input type="checkbox" name="system.deleteWhen0" {{checked system.deleteWhen0}}>
+        </div>
+    </div>
+{{/if}}
+<div class="form-group">
+    <label>{{ localize "COF.ui.price" }}</label>&nbsp; <input type="number" name="system.price" value="{{system.price}}" data-dtype="Number"/>
+</div>
+<div class="form-group">
+    <label>{{ localize "COF.ui.stackValue" }}</label>&nbsp; <input type="number" name="system.value" readonly="true" value="{{system.value}}" data-dtype="Number"/>
+</div>
+<div class="form-group">
+    <label>{{ localize "COF.ui.rarity" }}</label>&nbsp; 
+    <select name="system.rarity" data-type="String" style="width:100%">
+        {{#if system.properties.stackable}}
+            {{selectOptions config.itemRarityStackable selected=system.rarity localize=true}}
+        {{else}}
+            {{selectOptions config.itemRarity selected=system.rarity localize=true}}
+        {{/if}}
+    </select>
+</div>

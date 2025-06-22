@@ -1,0 +1,269 @@
+/* ----------------------------------------- */
+/*  Layout                                   */
+/* ----------------------------------------- */
+.window-content {
+  &>form {
+    .wrap {
+      color: @c-dark;
+      #logo-banner>img {
+        border:none;
+      }
+
+      .field-label {
+        background: none;
+        margin: 0;
+        min-height: 28px;
+        padding: 5px;
+        flex-grow: 2;
+        vertical-align: middle;
+      }
+
+      .field-value {
+        width: 100%;
+        min-height: 26px;
+        height: 26px;
+        max-height: 26px;
+        vertical-align: middle;
+        padding: 5px;
+      }
+
+      .header {
+        .header-background {
+          background: url("../ui/green-leather-bg.webp") repeat-x white;
+          #banner-left {
+            background: url("../ui/deco-left.webp") no-repeat;
+          }
+          #banner-right {
+            background: url("../ui/deco-right.webp") no-repeat;
+          }
+        }
+      }
+      .main {
+        background: white;
+        .sidebar {
+          background: url("../ui/parchemin1.webp") no-repeat white;
+        }
+        .separator{
+          background: url("../ui/separator.webp") repeat-y white;
+        }
+        .content{
+          .drop-field {
+            background-color: rgba(255, 255, 255, 0.4);
+            .field-value {
+              background: transparent;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.area-value {
+  border: none;
+  background: @c-white;
+  font-size: 1em;
+}
+
+.ellipsis {
+  .ellipse();
+}
+
+.field-value {
+  border: none;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 0;
+  color: @c-dark;
+}
+
+.box-shadow {
+  box-shadow: 1px 1px 2px gray;
+}
+
+.stats .field-value {
+  font-family: @font-handwrite;
+  font-size: 1.2em;
+  color: @c-dark;
+}
+
+.field-value.sans{
+  font: 14px @font-primary;
+}
+
+.field-area {
+  border: none;
+  width: 100%;
+  vertical-align: middle;
+  background: transparent;
+  font-family: @font-primary;
+  font-size: 13px;
+}
+
+.cof-compendium-pack {
+  cursor: pointer;
+}
+
+.row {
+  margin-top: 1px;
+  background: transparent;
+}
+
+.cell {
+  border: 1px solid @c-border;
+  margin-left: 1px;
+}
+
+.btn {
+  cursor: pointer;
+  font-family: @font-primary;
+  color: @c-darkbrown;
+  border: 1px solid @c-border;
+  box-shadow: 0 0 10px @c-shadow inset;
+  background:rgba(0,0,0,0.05);
+  margin-left: 1px;
+  &:hover{
+    color: @c-darkbrown;
+    background:rgba(0,0,0,0.3);
+    text-shadow: none;
+    border: 1px outset @c-border;
+  }
+  &:active{
+    border: 1px inset @c-border;
+    background:rgba(0,0,0,0.3);
+    color: @c-darkbrown;
+  }
+}
+
+
+.tabs {
+  font: 14px @font-primary;
+  color: @c-darkbrown;
+  text-align: center;
+
+  .item {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 5px;
+    border: 1px solid @c-border;
+    margin: 0;
+    height: 28px;
+    box-shadow: 0 0 10px @c-shadow inset;
+    /*padding: 3px 3px 0 3px;*/
+    background:rgba(0,0,0,0.05);
+    &:hover {
+      color: @c-darkbrown;
+      background:rgba(0,0,0,0.2);
+      text-shadow: none;
+    }
+    &.active {
+      color: @c-darkbrown;
+      border: 1px inset @c-border;
+      background:rgba(0,0,0,0.2);
+      text-shadow: none;
+    }
+  }
+}
+
+
+/* -------------------
+ * PATH LIST
+ * -------------------*/
+.path-card {
+  margin-bottom: 5px;
+  .path-name {
+    font-weight: bold;
+    font-size: 16px;
+    min-height:28px;
+  }
+  .path-description {
+    font-size: 12px;
+  }
+}
+
+.path-controls {
+  text-align: right;
+}
+
+/* ----------------------------------------- */
+/*  Sidebar                                  */
+/* ----------------------------------------- */
+
+.species-controls,
+.path-controls,
+.profile-controls {
+  color: @c-darkbrown;
+  visibility: hidden;
+  flex: 0 0 18px;
+  border:1px solid transparent;
+}
+div:hover>div.species-controls,
+div:hover>span.path-controls,
+div:hover>div.profile-controls {
+  visibility: visible;
+}
+
+.sidebar .charname{
+  font-family: @font-charname;
+  font-size: 2.5em;
+
+  -webkit-text-fill-color: @c-white; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: @c-darkgreen;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 3px 3px 10px @c-black;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  min-height: 80px;
+  background-color: transparent;
+}
+
+
+/* ----------------------------------------- */
+/*  Custom classes                           */
+/* ----------------------------------------- */
+.inventory h2{
+  font-family: @font-primary;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: @c-darkbrown;
+  border-bottom: 1px solid @c-lightg;
+}
+
+label.input-label{
+  border:1px solid red;
+  text-align: center;
+  vertical-align: center;
+  padding-bottom:7px;
+  margin:0;
+}
+
+.readonly {
+  box-shadow: 0 0 10px @c-shadow inset;
+  cursor:not-allowed;
+}
+
+
+.label-text {
+  font-family: @font-primary;
+  font-size: 14px;
+  color: @c-darkbrown;
+  text-align: center;
+  border: 1px solid @c-border;
+  margin: 0;
+  height: 28px;
+  box-shadow: 0 0 10px @c-shadow inset;
+  padding: 3px 3px 0 3px;
+  flex-grow: 2;
+  background: none;
+}
+
+strong{
+  font-weight: bold;
+}
+
+.collapsed {
+  display: none;
+}
+

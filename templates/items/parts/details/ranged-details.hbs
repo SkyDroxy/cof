@@ -1,0 +1,48 @@
+<h3 class="form-header">Propriétés d'armes à distance</h3>
+<div class="form-group">
+    <label>{{localize "COF.ui.range"}}</label>
+    <div class="form-fields">
+        <input name="system.range" type="text" value="{{item.system.range}}" placeholder="Range" data-dtype="Number">
+    </div>
+</div>
+<div class="form-group stacked">
+    <label>Classe</label>
+    <div class="form-fields">
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.bow" {{checked item.system.properties.bow}}> {{localize "COF.properties.bow"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.crossbow" {{checked item.system.properties.crossbow}}> {{localize "COF.properties.crossbow"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.powder" {{checked item.system.properties.powder}}> {{localize "COF.properties.powder"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.throwing" {{checked item.system.properties.throwing}}> {{localize "COF.properties.throwing"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.sling" {{checked item.system.properties.sling}}> {{localize "COF.properties.sling"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.spell" {{checked item.system.properties.spell}}> {{localize "COF.properties.spell"}}
+        </label>
+    </div>
+</div>
+<div class="form-group">
+    <label>{{localize "COF.ui.properties"}}</label>
+    <div class="form-fields">
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.reloadable" {{checked item.system.properties.reloadable}}> {{localize "COF.properties.reloadable"}}
+        </label>
+    </div>
+</div>
+{{#if system.properties.reloadable}}
+    <div class="form-group">
+        <label>{{localize "COF.ui.reload"}}</label>
+        <div class="form-fields">
+            <select name="system.reload" data-type="String" style="width:100%">
+                {{selectOptions config.RELOAD selected=system.reload localize=true blank="COF.ui.noAction"}}                
+            </select>
+        </div>
+    </div>
+{{/if}}

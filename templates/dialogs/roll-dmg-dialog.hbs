@@ -1,0 +1,34 @@
+<div class="flexrow" style="margin-bottom: 1px;">
+    <div class="flex1 center bg-default">
+        <label for="rollMode">{{localize "CHAT.RollDefault"}}</label>
+    </div>
+    <div class="flex1 center cell">
+        <select name="rollMode" id="rollMode">
+            {{selectOptions rollModes selected=rollMode localize=true}}            
+        </select>
+    </div>
+</div>
+ <hr/>
+<div class="row flexrow table-header red">
+    <div class="flex1 center">
+        <h3>{{localize "COF.dialog.rollDamage.title"}}</h3>
+    </div>
+</div>
+{{> "systems/cof/templates/dialogs/parts/roll-dmg-fields.hbs"}}
+<div class="row flexrow" style="margin-bottom: 10px;">
+    <div class="flex1 center bg-darkslate">
+        <span class="field-label">{{localize "COF.roll.criticalDmg"}} ?</span>
+    </div>
+    <div class="flex1 center cell">
+        <input class="field-value" id="isCritical" name="isCritical" type="checkbox" {{#if isCritical}}checked{{/if}}/>
+    </div>
+</div>
+{{#if hasDescription}}
+    <hr/>
+    <div>
+        <div class="flex1 center bg-darkslate">
+            <span class="field-label">{{localize "COF.ui.description"}}</span>
+        </div>
+        <textarea class="readonly rollDialogDescr" readonly="true" id="dmgDescr" name="dmgDescr">{{dmgDescr}}</textarea>
+    </div>
+{{/if}}

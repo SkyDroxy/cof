@@ -1,0 +1,115 @@
+<div class="row flexrow table-header red">
+    <div class="flex1 center">
+        <h3>{{localize 'COF.ui.skillcheck'}}</h3>
+    </div>
+</div>
+<div class="flexrow" style="margin-bottom: 1px;">
+    <div class="flex1 center bg-default">
+        <label for="rollMode">{{localize "CHAT.RollDefault"}}</label>
+    </div>
+    <div class="flex1 center cell">
+        <select name="rollMode" id="rollMode">
+            {{selectOptions rollModes selected=rollMode localize=true}}            
+        </select>
+    </div>
+</div>
+ <hr/>
+<div class="flexrow" style="margin-bottom: 1px;">
+    <div class="flex1 center bg-red">
+        <label for="dice">{{localize 'COF.ui.dice.type'}}</label>
+    </div>
+    <div class="flex1 center cell">
+        <select class="flex1" name="dice" id="dice" data-type="String">
+            <option value="1d20" {{#unless weakened}}{{else}}selected{{/unless}}>1d20</option>
+            <option value="1d12" {{#if weakened}}selected{{/if}}>1d12</option>
+            <option value="2d12kh">2d12 ({{localize 'COF.ui.kh'}})</option>
+            <option value="2d20kh">2d20 ({{localize 'COF.ui.kh'}})</option>
+            <option value="2d12kl">2d12 ({{localize 'COF.ui.kl'}})</option>
+            <option value="2d20kl">2d20 ({{localize 'COF.ui.kl'}})</option>
+        </select>
+    </div>
+</div>
+<div class="row flexrow" style="margin-bottom: 1px;">
+    <div class="flex1 center bg-red">
+        <span class="field-label">{{localize 'COF.ui.modifier'}}</span>
+    </div>
+    <div class="flex1 center cell">
+        <input class="field-value readonly" id="mod" name="mod" type="text" readonly="true" value="{{numberFormat mod decimals=0 sign=true}}" data-dtype="Number"/>
+    </div>
+</div>
+<div class="row flexrow" style="margin-bottom: 1px;">
+    <div class="flex1 center bg-red">
+        <span class="field-label">{{localize 'COF.ui.critrange'}}</span>
+    </div>
+    <div class="flex1 center cell">
+        <input class="field-value" id="critrange" name="critrange" type="text" value="{{critrange}}" data-dtype="String"/>
+    </div>
+</div>
+<div class="row flexrow" style="margin-bottom: 1px;">
+    <div class="flex1 center bg-red">
+        <span class="field-label">{{localize 'COF.ui.bonus'}}</span>
+    </div>
+    <div class="flex1 center cell">
+        <input class="field-value" id="bonus" name="bonus" type="text" value="{{numberFormat bonus decimals=0 sign=true}}" data-dtype="Number"/>
+    </div>
+</div>
+<div class="row flexrow" style="margin-bottom: 1px;">
+    <div class="flex1 center bg-red">
+        <span class="field-label">{{localize 'COF.ui.malus'}}</span>
+    </div>
+    <div class="flex1 center cell">
+        <input class="field-value" id="malus" name="malus" type="text" value="{{numberFormat malus decimals=0 sign=true}}" data-dtype="Number"/>
+    </div>
+</div>
+
+<!-- DIFFICULTY -->
+{{#if displayDifficulty}}
+    <hr/>    
+    <div class="row flexrow" style="margin-bottom: 5px;">
+        <div class="flex1 center bg-darkslate">
+            <span class="field-label">{{localize 'COF.ui.difficulty'}}</span>
+        </div>
+        <div class="flex1 center cell">
+            <input class="field-value" id="difficulty" name="difficulty" type="text" value="{{difficulty}}" data-dtype="Number"/>
+        </div>
+    </div> 
+{{else}}
+    <div class="row flexrow" style="margin-bottom: 5px; display:none;">
+        <div class="flex1 center bg-darkslate">
+            <span class="field-label">{{localize 'COF.ui.difficulty'}}</span>
+        </div>
+        <div class="flex1 center cell">
+            <input class="field-value" id="difficulty" name="difficulty" type="text" value="{{difficulty}}" data-dtype="Number"/>
+        </div>
+    </div>
+{{/if}}
+
+{{#if hasSkillDescr}}
+    <hr/>
+    <div>
+        <div class="flex1 center bg-darkslate">
+            <span class="field-label">Description</span>
+        </div>
+        <textarea class="readonly rollDialogDescr" readonly="true" id="skillDescr" name="skillDescr">{{skillDescr}}</textarea>
+    </div>
+{{/if}}
+
+{{#if (isEnabled "useComboRolls")}}
+    <hr/>
+    <div class="row flexrow table-header red">
+        <div class="flex1 center">
+            <h3>{{localize 'COF.ui.damage'}}</h3>
+        </div>
+    </div>
+    <!-- DAMAGES -->
+    {{> "systems/cof/templates/dialogs/parts/roll-dmg-fields.hbs"}}
+{{/if}}
+{{#if hasDmgDescr}}
+    <hr/>
+    <div>
+        <div class="flex1 center bg-darkslate">
+            <span class="field-label">{{localize "COF.ui.description"}}</span>
+        </div>
+        <textarea class="readonly rollDialogDescr" readonly="true" id="dmgDescr" name="dmgDescr">{{dmgDescr}}</textarea>
+    </div>
+{{/if}}

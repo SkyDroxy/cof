@@ -1,0 +1,52 @@
+<h3 class="form-header">Type d'équipement</h3>
+<div class="form-group">
+    <label>Sous-catégorie</label>
+    <div class="form-fields">
+        <select name="system.subtype" data-type="String" style="width:100%">
+            {{selectOptions config.itemCategories selected=system.subtype localize=true}}
+        </select>
+    </div>
+</div>
+
+<div class="form-group stacked">
+    <label>Traits</label>
+    <div class="form-fields">
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.equipment" {{checked system.properties.equipment}}> {{localize "COF.properties.equipment"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.weapon" {{checked system.properties.weapon}}> {{localize "COF.properties.weapon"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.protection" {{checked system.properties.protection}}> {{localize "COF.properties.protection"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.ranged" {{checked system.properties.ranged}}> {{localize "COF.properties.ranged"}}
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="system.properties.effects" {{checked system.properties.effects}}> {{localize "COF.properties.effects"}}
+        </label>
+    </div>
+</div>
+
+{{#if system.properties.equipment}}
+    {{> "systems/cof/templates/items/parts/details/equipment-details.hbs"}}
+{{/if}}
+{{#if system.properties.weapon}}
+    {{> "systems/cof/templates/items/parts/details/weapon-details.hbs"}}
+{{/if}}
+{{#if system.properties.protection}}
+    {{> "systems/cof/templates/items/parts/details/protection-details.hbs"}}
+{{/if}}
+{{#if system.properties.ranged}}
+    {{> "systems/cof/templates/items/parts/details/ranged-details.hbs"}}
+{{/if}}
+{{#if system.properties.effects}}
+    {{> "systems/cof/templates/items/parts/details/effects-details.hbs"}}
+{{/if}}
+{{#if system.properties.spell}}
+    {{> "systems/cof/templates/items/parts/details/spell-details.hbs"}}
+{{/if}}
+{{#if actor}}
+    {{> "systems/cof/templates/items/parts/details/usage-details.hbs"}}
+{{/if}}

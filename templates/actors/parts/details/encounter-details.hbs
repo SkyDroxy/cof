@@ -1,0 +1,85 @@
+<div class="row flexrow top">
+    <div class="flex1" style="margin-right: 5px;">
+        <!-- NAME -->
+        <div class="row flexrow">
+            <div class="flex1 center bg-header">
+                <span class="field-label">{{ localize 'COF.details.name' }}</span>
+            </div>
+            <div class="flex2 center cell">
+                <input class="field-value sans" name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'COF.details.name' }}" data-dtype="String"/>
+            </div>
+        </div>
+        <!-- /NAME -->
+        {{#if (isNotLimited @root)}}
+            <!-- NC -->
+            <div class="row flexrow">
+                <div class="flex1 center bg-header">
+                    <span class="field-label">{{ localize 'COF.attributes.nc.abbrev' }}</span>
+                </div>
+                <div class="flex2 center cell">
+                    <input class="field-value" name="system.nc.value" type="text" value="{{actor.system.nc.value}}" placeholder="{{ localize 'COF.attributes.nc.label' }}" data-dtype="Number"/>
+                </div>
+            </div>
+            <!-- /NC -->
+        {{/if}}
+        <!-- SIZE -->
+        <div class="row flexrow">
+            <div class="flex1 center bg-header">
+                <span class="field-label">{{ localize 'COF.details.size' }}</span>
+            </div>
+            <div class="flex2 center cell">
+                <select name="system.details.size" data-type="String" style="width:100%">
+                    {{selectOptions config.actorSizes selected=system.details.size localize=true}}
+                </select>
+        </select>
+            </div>
+        </div>
+        <!-- /SIZE -->
+    </div>
+    <div class="flex1">
+        {{#if (isNotLimited @root)}}
+            <!-- ARCHETYPE -->
+            <div class="row flexrow">
+                <div class="flex1 center bg-header">
+                    <span class="field-label">{{ localize 'COF.ui.archetype' }}</span>
+                </div>
+                <div class="flex2 center cell">
+                    <select name="system.archetype" data-type="String" style="width:100%">
+                        {{selectOptions config.encounterArchetypes selected=system.archetype localize=true blank="COF.None"}}
+                    </select>
+                </div>
+            </div>
+            <!-- /ARCHETYPE -->
+            <!-- CATEGORY -->
+            <div class="row flexrow">
+                <div class="flex1 center bg-header">
+                    <span class="field-label">{{ localize 'COF.ui.category' }}</span>
+                </div>
+                <div class="flex2 center cell">
+                    <select name="system.category" data-type="String" style="width:100%">
+                        {{selectOptions config.encounterCategories selected=system.category localize=true blank="COF.None"}}
+                    </select>
+
+                </div>
+            </div>
+            <!-- /CATEGORY -->
+            <!-- BOSS RANK -->
+            <div class="row flexrow">
+                <div class="flex1 center bg-header">
+                    <span class="field-label">{{ localize 'COF.ui.boss' }}</span>
+                </div>
+                <div class="flex1 center cell">
+                    <select name="system.boss.rank" data-type="String" style="width:100%">
+                        {{selectOptions config.encounterBossRanks selected=system.boss.rank localize=true blank="COF.None"}}
+                    </select>
+                </div>
+                <div class="flex1 center cell">
+                    <select name="system.boss.type" data-type="String" style="width:100%">
+                        {{selectOptions config.encounterBossTypes selected=system.boss.type localize=true blank="COF.None"}}
+                    </select>
+                </div>
+            </div>
+            <!-- /BOSS RANK -->
+        {{/if}}
+    </div>
+</div>

@@ -1,0 +1,164 @@
+<div class="row flexrow no-wrap">
+    <div class="flex1 layout">
+        <div class="row flexrow table-header color-default no-wrap">
+            <div class="flex3 center">
+                <div class="field-label">{{ localize 'COF.stats.abbrev' }}</div>
+            </div>
+            <div class="flex2 center">
+                <div class="field-label">{{ localize 'COF.stats.value.abbrev' }}</div>
+            </div>
+            <div class="flex2 center">
+                <div class="field-label">{{ localize 'COF.stats.mod.abbrev' }}</div>
+            </div>
+            <div class="flex2 center">
+                <div class="field-label">{{ localize 'COF.stats.tmpmod.abbrev' }}</div>
+            </div>
+        </div>
+        {{#each actor.system.stats as |stat id|}}
+        <div class="flexrow no-wrap">
+            <div class="flex3 bg-stats">
+                <div class="flexrow no-wrap">
+                    <div class="flex1 center no-wrap" title="Supérieur (2d20)">
+                        <input type="checkbox" name="system.stats.{{id}}.superior" {{checked stat.superior}}>
+                    </div>
+                    <div class="flex8 center rollable no-wrap" data-rolling="system.stats.{{id}}" data-roll-type="skillcheck">
+                        <div class="field-label no-wrap" title="{{ localize stat.label }}">
+                            <i class="fas fa-dice-d20"></i>&nbsp;{{ localize stat.abbrev }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex2 center cell readonly">
+                <input class="field-value" name="system.stats.{{id}}.value" readonly="true" type="text" value="{{stat.value}}" data-dtype="Number"/>
+            </div>
+            <div class="flex2 center cell">
+                <input class="field-value" name="system.stats.{{id}}.mod" type="text" value="{{numberFormat stat.mod decimals=0 sign=true}}" data-dtype="Number"/>
+            </div>
+            <div class="flex2 center cell">
+                {{#if (isNull stat.tmpmod)}}
+                <input class="field-value" name="system.stats.{{id}}.tmpmod" type="text" value="" data-dtype="Number"/>
+                {{else}}
+                <input class="field-value" name="system.stats.{{id}}.tmpmod" type="text" value="{{numberFormat stat.tmpmod decimals=0 sign=true}}" data-dtype="Number"/>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+    <div class="flex1 layout">
+        <div class="row flexrow table-header red no-wrap">
+            <div class="flex2 center">
+                <div class="field-label ellipsis">{{ localize 'COF.attacks.label' }}</div>
+            </div>
+            <div class="flex1 center">
+                <div class="field-label">{{ localize 'COF.ui.base' }}</div>
+            </div>
+            <div class="flex1 center">
+                <div class="field-label">{{ localize 'COF.ui.bonus' }}</div>
+            </div>
+            <div class="flex1 center">
+                <div class="field-label">{{ localize 'COF.ui.total' }}</div>
+            </div>
+        </div>
+        {{#each actor.system.attacks as |attack id|}}
+            <div class="row flexrow no-wrap">
+                <div class="flex2 center bg-red rollable" data-rolling="system.attacks.{{id}}" data-roll-type="skillcheck">
+                    <span class="field-label ellipsis"><i class="fas fa-dice-d20"></i>&nbsp;{{ localize attack.abbrev }}</span>
+                    <input name="system.attacks.{{id}}.abbrev" type="hidden" value="{{attack.abbrev}}" data-dtype="String"/>
+                    <input name="system.attacks.{{id}}.label" type="hidden" value="{{attack.label}}" data-dtype="String"/>
+                    <input name="system.attacks.{{id}}.key" type="hidden" value="{{attack.key}}" data-dtype="String"/>
+                </div>
+                <div class="flex1 center cell">
+                    {{#if (isNull attack.base)}}
+                        <input class="field-value" name="system.attacks.{{id}}.base" type="text" value="" placeholder="{{localize "COF.ui.base"}}" data-dtype="Number"/>
+                    {{else}}
+                        <input class="field-value" name="system.attacks.{{id}}.base" type="text" value="{{numberFormat attack.base decimals=0 sign=true}}" placeholder="{{localize "COF.ui.base"}}" data-dtype="Number"/>
+                    {{/if}}
+                </div>
+                <div class="flex1 center cell">
+                    {{#if (isNull attack.base)}}
+                        <input class="field-value" name="system.attacks.{{id}}.bonus" type="text" value="" placeholder="{{localize "COF.ui.bonus"}}" data-dtype="Number"/>
+                    {{else}}
+                        <input class="field-value" name="system.attacks.{{id}}.bonus" type="text" value="{{numberFormat attack.bonus decimals=0 sign=true}}" placeholder="{{localize "COF.ui.bonus"}}" data-dtype="Number"/>
+                    {{/if}}
+                </div>
+                <div class="flex1 center cell">
+                    {{#if (isNull attack.base)}}
+                        <input class="field-value readonly" name="system.attacks.{{id}}.mod" readonly="true" type="text" value="" placeholder="{{localize "COF.ui.mod"}}" data-dtype="Number"/>
+                    {{else}}
+                        <input class="field-value readonly" name="system.attacks.{{id}}.mod" readonly="true" type="text" value="{{numberFormat attack.mod decimals=0 sign=true}}" placeholder="{{localize "COF.ui.mod"}}" data-dtype="Number"/>
+                    {{/if}}
+                </div>
+            </div>
+        {{/each}}
+        <div class="row flexrow"><div class="flex1 spacer"></div></div>
+        <div class="row flexrow"><div class="flex1 spacer"></div></div>
+        <div class="row flexrow no-wrap">
+            <div class="flex2 center bg-red">
+                <span class="field-label"><i class="fas fa-bolt"></i>&nbsp;{{ localize 'COF.attributes.init.abbrev' }}</span>
+            </div>
+            <div class="flex1 center cell">
+                <input class="field-value" name="system.attributes.init.value" type="text" value="{{actor.system.attributes.init.value}}" placeholder="{{localize "COF.ui.value"}}" data-dtype="Number"/>
+            </div>
+            <div class="flex1 center cell">
+                <input class="field-value" name="system.attributes.init.tmpval" type="text" value="{{actor.system.attributes.init.tmpval}}" placeholder="Temp" data-dtype="Number"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row flexrow"><div class="flex1 half-spacer"></div></div>
+<div class="row flexrow no-wrap">
+    <div class="flex1 layout">
+        <div class="row flexrow no-wrap">
+            <div class="flex2 center bg-blue">
+                <span class="field-label"><i class="fas fa-shield-alt"></i>&nbsp;{{ localize 'COF.attributes.def.abbrev' }}</span>
+            </div>
+            <div class="flex1 center cell">
+                <input class="field-value" name="system.attributes.def.value" type="text" value="{{actor.system.attributes.def.value}}" placeholder="{{localize "COF.ui.value"}}" data-dtype="Number"/>
+            </div>
+            <div class="flex1 center cell">
+                <input class="field-value" name="system.attributes.def.tmp" type="text" value="{{actor.system.attributes.def.tmp}}" placeholder="Temp" data-dtype="Number"/>
+            </div>
+        </div>
+        <div class="row flexrow no-wrap">
+            <div class="flex2 center bg-blue">
+                <span class="field-label"><i class="fas fa-user-shield"></i>&nbsp;{{ localize 'COF.attributes.dr.abbrev' }}</span>
+            </div>
+            <div class="flex1 center cell">
+                <input class="field-value" name="system.attributes.dr.value" type="text" value="{{actor.system.attributes.dr.value}}" placeholder="{{localize "COF.ui.value"}}" data-dtype="Number"/>
+            </div>
+            <div class="flex1 center cell">
+                <input class="field-value" name="system.attributes.dr.tmp" type="text" value="{{actor.system.attributes.dr.tmp}}" placeholder="Temp" data-dtype="Number"/>
+            </div>
+        </div>
+    </div>
+    <div class="flex1 layout">
+        <div class="row flexrow">
+            <div class="flex1 layout" style="margin-top:-7px">
+                <!-- VITALITE -->
+                <div class="row flexrow table-header green no-wrap">
+                    <div class="flex2 center">
+                        <div class="field-label">{{ localize 'COF.attributes.vitality.label' }}&nbsp;{{#with profile}}({{system.dv}}){{/with}}</div>
+                    </div>
+                    <div class="flex1 center">
+                        <div class="field-label">{{ localize 'COF.attributes.max.abbrev' }}</div>
+                    </div>                    
+                    <div class="flex1 center">
+                        <div class="field-label">{{ localize 'COF.ui.current' }}</div>
+                    </div>
+                </div>
+                <div class="row flexrow no-wrap">
+                    <div class="flex2 center bg-green">
+                        <span class="field-label"><i class="fas fa-heart"></i>&nbsp;{{ localize 'COF.attributes.hp.abbrev' }}</span>
+                    </div>
+                    <div class="flex1 center cell">
+                        <input class="field-value" name="system.attributes.hp.max" type="text" value="{{actor.system.attributes.hp.max}}" placeholder="Max" data-dtype="Number"/>
+                    </div>                    
+                    <div class="flex1 center cell">
+                        <input class="field-value" name="system.attributes.hp.value" type="text" value="{{actor.system.attributes.hp.value}}" placeholder="{{localize "COF.ui.value"}}" data-dtype="Number"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
