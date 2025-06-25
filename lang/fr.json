@@ -498,6 +498,7 @@
   "COF.CustomStatus.weak": "Affaibli (d12)",
   "COF.CustomStatus.restrain": "Immobilisé (d12)",
   "COF.CustomStatus.dead": "Hors d'état",
+  "COF.CustomStatus.focused": "Concentré",
 
   "COF.encounter.size.tiny": "Minuscule",
   "COF.encounter.size.small": "Très petite",

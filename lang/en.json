@@ -497,6 +497,7 @@
   "COF.CustomStatus.weak": "Weak (d12)",
   "COF.CustomStatus.restrain": "Restrain (d12)",
   "COF.CustomStatus.dead": "Dead",
+  "COF.CustomStatus.focused": "Focused",
 
   "COF.encounter.size.tiny": "Tiny",
   "COF.encounter.size.small": "Small",
