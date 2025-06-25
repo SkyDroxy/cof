@@ -23,7 +23,13 @@ export class CofActorSheet extends CofBaseSheet {
       template: System.templatesPath + "/actors/actor-sheet.hbs",
       width: 1200,
       height: 750,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "stats" }],
+      tabs: [
+        {
+          navSelector: ".sheet-tabs",
+          contentSelector: ".sheet-body",
+          initial: "stats",
+        },
+      ],
       dragDrop: [{ dragSelector: ".item-list .item", dropSelector: null }],
     });
   }
@@ -64,7 +70,7 @@ export class CofActorSheet extends CofBaseSheet {
     });
 
     // Initiate a roll with a left click
-    html.find(".rollable").click((ev) => {
+    html.find(".cof-rollable").click((ev) => {
       ev.preventDefault();
       return this._onRoll(ev);
     });
@@ -115,7 +121,9 @@ export class CofActorSheet extends CofBaseSheet {
     });
     html.find(".capacity-activate").click(this._onActivateCapacity.bind(this));
     html.find(".capacity-qty").click(this._onIncreaseCapacityUse.bind(this));
-    html.find(".capacity-qty").contextmenu(this._onDecreaseCapacityUse.bind(this));
+    html
+      .find(".capacity-qty")
+      .contextmenu(this._onDecreaseCapacityUse.bind(this));
 
     // Effects controls
     html.find(".effect-toggle").click((ev) => {
@@ -177,10 +185,19 @@ export class CofActorSheet extends CofBaseSheet {
 
       let dv = this.actor.getDV();
       let modCon = this.actor.getStatMod("con");
-      let healingRoll = new CofHealingRoll(game.i18n.localize("COF.roll.healing.label"), `${dv}+${modCon}`, false, game.i18n.localize("COF.roll.healing.title"), false);
+      let healingRoll = new CofHealingRoll(
+        game.i18n.localize("COF.roll.healing.label"),
+        `${dv}+${modCon}`,
+        false,
+        game.i18n.localize("COF.roll.healing.title"),
+        false
+      );
 
       healingRoll.roll(this.actor).then((roll) => {
-        let levelUp = new LevelUpSheet(this.actor, { resizable: true, hpRoll: roll });
+        let levelUp = new LevelUpSheet(this.actor, {
+          resizable: true,
+          hpRoll: roll,
+        });
         levelUp.render(true);
       });
     });
@@ -313,12 +330,18 @@ export class CofActorSheet extends CofBaseSheet {
     } else if (type === "capacity") {
       // Recherche d'un capacité existante avec la même clé
       const key = li.data("key");
-      let entity = this.actor.items.find((i) => i.type === "capacity" && i.system.key === key);
-      return entity ? entity.sheet.render(true) : fromUuid(uuid).then((e) => e.sheet.render(true));
+      let entity = this.actor.items.find(
+        (i) => i.type === "capacity" && i.system.key === key
+      );
+      return entity
+        ? entity.sheet.render(true)
+        : fromUuid(uuid).then((e) => e.sheet.render(true));
     } else {
       // look first in actor embedded items
       let entity = this.actor.items.get(id);
-      return entity ? entity.sheet.render(true) : fromUuid(uuid).then((e) => e.sheet.render(true));
+      return entity
+        ? entity.sheet.render(true)
+        : fromUuid(uuid).then((e) => e.sheet.render(true));
     }
   }
 
@@ -346,12 +369,16 @@ export class CofActorSheet extends CofBaseSheet {
       limited: item.system.limited,
       spell: item.system.spell,
       ranged: item.system.properties.ranged,
+      reaction: item.system.properties.reaction,
       limitedUsage: item.system.limitedUsage,
       save: item.system.save,
       activable: item.system.properties.activable,
     };
 
-    const html = await renderTemplate("systems/cof/templates/chat/item-card.hbs", templateData);
+    const html = await renderTemplate(
+      "systems/cof/templates/chat/item-card.hbs",
+      templateData
+    );
     let chatData = {
       speaker: ChatMessage.getSpeaker(),
       content: html,
@@ -367,7 +394,9 @@ export class CofActorSheet extends CofBaseSheet {
   _onItemSummary(event) {
     event.preventDefault();
     let li = $(event.currentTarget).parents(".item").children(".item-summary");
-    let entity = this.actor.items.get($(event.currentTarget).parents(".item").data("itemId"));
+    let entity = this.actor.items.get(
+      $(event.currentTarget).parents(".item").data("itemId")
+    );
     if (entity && entity.type === "capacity") {
       if (li.hasClass("expanded")) {
         li.css("display", "none");
@@ -511,7 +540,8 @@ export class CofActorSheet extends CofBaseSheet {
     const itemData = item.toObject();
 
     // Handle item sorting within the same Actor
-    if (this.actor.uuid === item.parent?.uuid) return this._onSortItem(event, itemData);
+    if (this.actor.uuid === item.parent?.uuid)
+      return this._onSortItem(event, itemData);
 
     // Create the owned item
     return this._onDropItemCreate(itemData, data.uuid, event.shiftKey);
@@ -553,8 +583,17 @@ export class CofActorSheet extends CofBaseSheet {
         }
 
         // Si l'item doit être déplacé ET qu'il n'est plus dans l'inventaire d'origine, affichage d'un message d'avertissement et on arrête le traitement
-        if (moveItem && originalActor && !originalActor.items.get(itemData._id)) {
-          ui.notifications.warn(game.i18n.format("COF.notification.ItemNotInInventory", { itemName: itemData.name, actorName: originalActor.name }));
+        if (
+          moveItem &&
+          originalActor &&
+          !originalActor.items.get(itemData._id)
+        ) {
+          ui.notifications.warn(
+            game.i18n.format("COF.notification.ItemNotInInventory", {
+              itemName: itemData.name,
+              actorName: originalActor.name,
+            })
+          );
           return null;
         }
 
@@ -563,21 +602,27 @@ export class CofActorSheet extends CofBaseSheet {
 
         itemData = itemData instanceof Array ? itemData : [itemData];
         // Create the owned item
-        return this.actor.createEmbeddedDocuments("Item", itemData).then((item) => {
-          // Si il n'y as pas d'originalActor l'objet ne vient pas d'un autre acteur
-          if (!originalActor) return item;
+        return this.actor
+          .createEmbeddedDocuments("Item", itemData)
+          .then((item) => {
+            // Si il n'y as pas d'originalActor l'objet ne vient pas d'un autre acteur
+            if (!originalActor) return item;
 
-          // Si l'item doit être "move", on le supprime de l'actor précédent
-          if (moveItem ^ shiftKey) {
-            if (!originalActor.token) {
-              originalActor.deleteEmbeddedDocuments("Item", [itemId]);
-            } else {
-              let token = TokenLayer.instance.placeables.find((token) => token.id === data.tokenId);
-              let oldItem = token?.document.getEmbeddedCollection("Item").get(itemId);
-              oldItem?.delete();
+            // Si l'item doit être "move", on le supprime de l'actor précédent
+            if (moveItem ^ shiftKey) {
+              if (!originalActor.token) {
+                originalActor.deleteEmbeddedDocuments("Item", [itemId]);
+              } else {
+                let token = TokenLayer.instance.placeables.find(
+                  (token) => token.id === data.tokenId
+                );
+                let oldItem = token?.document
+                  .getEmbeddedCollection("Item")
+                  .get(itemId);
+                oldItem?.delete();
+              }
             }
-          }
-        });
+          });
       }
     }
   }
@@ -590,7 +635,8 @@ export class CofActorSheet extends CofBaseSheet {
     const context = super.getData(options);
     if (COF.debug) console.log("COF | ActorSheet getData", context);
 
-    let lockDuringPause = game.settings.get("cof", "lockDuringPause") && game.paused;
+    let lockDuringPause =
+      game.settings.get("cof", "lockDuringPause") && game.paused;
     options.editable &= game.user.isGM || !lockDuringPause;
 
     context.config = game.cof.config;
@@ -609,14 +655,23 @@ export class CofActorSheet extends CofBaseSheet {
         id: category,
         label: game.cof.config.itemCategories[category],
         items: Object.values(context.items)
-          .filter((item) => item.type === "item" && item.system.subtype === category && item.system.worn && (item.system.properties.weapon || item.system.properties.protection))
+          .filter(
+            (item) =>
+              item.type === "item" &&
+              item.system.subtype === category &&
+              item.system.worn &&
+              (item.system.properties.weapon ||
+                item.system.properties.protection)
+          )
           .sort((a, b) => (a.name > b.name ? 1 : -1)),
       });
       context.inventory.categories.push({
         id: category,
         label: "COF.category." + category,
         items: Object.values(context.items)
-          .filter((item) => item.type === "item" && item.system.subtype === category)
+          .filter(
+            (item) => item.type === "item" && item.system.subtype === category
+          )
           .sort((a, b) => (a.name > b.name ? 1 : -1)),
       });
     }
@@ -630,16 +685,27 @@ export class CofActorSheet extends CofBaseSheet {
             const itemModBonus = parseInt(item.system.skillBonus);
             const weaponCategory = this.getCategory(item);
 
-            item.system.mod = this.actor.computeWeaponMod(itemModStat, itemModBonus, weaponCategory);
+            item.system.mod = this.actor.computeWeaponMod(
+              itemModStat,
+              itemModBonus,
+              weaponCategory
+            );
 
             // Compute DM
             const itemDmgBase = item.system.dmgBase;
             const itemDmgStat = item.system.dmgStat.split("@")[1];
             const itemDmgBonus = parseInt(item.system.dmgBonus);
 
-            const skillDmgBonus = eval("this.actor.system." + itemModStat.replace("mod", "dmBonus"));
+            const skillDmgBonus = eval(
+              "this.actor.system." + itemModStat.replace("mod", "dmBonus")
+            );
 
-            item.system.dmg = this.actor.computeDm(itemDmgBase, itemDmgStat, itemDmgBonus, skillDmgBonus);
+            item.system.dmg = this.actor.computeDm(
+              itemDmgBase,
+              itemDmgStat,
+              itemDmgBonus,
+              skillDmgBonus
+            );
           }
         });
       }
@@ -665,11 +731,14 @@ export class CofActorSheet extends CofBaseSheet {
     });
     for (const path of context.paths) {
       context.capacities.collections.push({
-        id: path.system.key ? path.system.key : path.name.slugify({ strict: true }),
+        id: path.system.key
+          ? path.system.key
+          : path.name.slugify({ strict: true }),
         label: path.name,
         items: Object.values(context.items)
           .filter((item) => {
-            if (item.type === "capacity" && item.system.path._id === path._id) return true;
+            if (item.type === "capacity" && item.system.path._id === path._id)
+              return true;
           })
           .sort((a, b) => (a.system.rank > b.system.rank ? 1 : -1)),
       });
@@ -678,7 +747,10 @@ export class CofActorSheet extends CofBaseSheet {
     const overloadedOtherMod = this.actor.getOverloadedOtherMod();
     let overloadedTotal = 0;
     if (overloadedMalus !== 0) {
-      overloadedTotal = overloadedMalus + overloadedOtherMod <= 0 ? overloadedMalus + overloadedOtherMod : 0;
+      overloadedTotal =
+        overloadedMalus + overloadedOtherMod <= 0
+          ? overloadedMalus + overloadedOtherMod
+          : 0;
     }
     context.overloaded = {
       armor: overloadedMalus,
@@ -687,7 +759,10 @@ export class CofActorSheet extends CofBaseSheet {
     // Gestion des boutons de modification des effets (visible pour l'actor si il en propriétaire)
     context.isEffectsEditable = options.editable;
 
-    context.enrichedDescription = await TextEditor.enrichHTML(this.object.system.description, { async: true });
+    context.enrichedDescription = await TextEditor.enrichHTML(
+      this.object.system.description,
+      { async: true }
+    );
 
     context.diceValues = COF.DICE_VALUES;
 

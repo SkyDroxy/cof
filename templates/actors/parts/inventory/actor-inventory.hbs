@@ -1,29 +1,29 @@
-<div class="flexrow no-wrap currencies" style="max-height:20px">
+<div class="cof-flexrow cof-no-wrap currencies" style="max-height:20px">
     <div class="flex7"></div>
-    <div class="flex1 left">{{localize "COF.inventory.purse"}}</div>
-    <div class="flex1 left">
+    <div class="cof-flex1 cof-left">{{localize "COF.inventory.purse"}}</div>
+    <div class="cof-flex1 cof-left">
         <i title="{{localize "COF.currency.pp.label"}}" class="fas fa-coins" style="color:dimgray"></i>
-        <input class="field-value center" name="system.currency.pp.qty" type="number" value="{{actor.system.currency.pp.qty}}" data-dtype="Number"/>
+        <input class="field-value cof-center" name="system.currency.pp.qty" type="number" value="{{actor.system.currency.pp.qty}}" data-dtype="Number"/>
     </div>
-    <div class="flex1 left">
+    <div class="cof-flex1 cof-left">
         <i title="{{localize "COF.currency.gp.label"}}" class="fas fa-coins" style="color:goldenrod"></i>
-        <input class="field-value center" name="system.currency.gp.qty" type="number" value="{{actor.system.currency.gp.qty}}" data-dtype="Number"/>
+        <input class="field-value cof-center" name="system.currency.gp.qty" type="number" value="{{actor.system.currency.gp.qty}}" data-dtype="Number"/>
     </div>
-    <div class="flex1 left">
+    <div class="cof-flex1 cof-left">
         <i title="{{localize "COF.currency.sp.label"}}" class="fas fa-coins" style="color:silver"></i>
-        <input class="field-value center" name="system.currency.sp.qty" type="number" value="{{actor.system.currency.sp.qty}}" data-dtype="Number"/>
+        <input class="field-value cof-center" name="system.currency.sp.qty" type="number" value="{{actor.system.currency.sp.qty}}" data-dtype="Number"/>
     </div>
-    <div class="flex1 left">
+    <div class="cof-flex1 cof-left">
         <i title="{{localize "COF.currency.cp.label"}}" class="fas fa-coins" style="color:saddlebrown"></i>
-        <input class="field-value center" name="system.currency.cp.qty" type="number" value="{{actor.system.currency.cp.qty}}" data-dtype="Number"/>
+        <input class="field-value cof-center" name="system.currency.cp.qty" type="number" value="{{actor.system.currency.cp.qty}}" data-dtype="Number"/>
     </div>
 </div>
 {{#if (gt inventory.count 0)}}
     {{#each inventory.categories as |category id|}}
         {{#if (gt category.items.length 0)}}
             <ol class="inventory-list foldable {{#if (includes ../folded.inventory category.id)}}folded{{/if}}" data-tab="inventory" data-category="{{category.id}}">
-                <li class="inventory-header flexrow">
-                    <h3 class="item-name flexrow">{{localize category.label}}</h3>
+                <li class="inventory-header cof-flexrow">
+                    <h3 class="item-name cof-flexrow">{{localize category.label}}</h3>
                     
                     {{#if (isCategoryIn category.id "ranged" "spell")}}<div class="item-detail">{{localize "COF.combat.range"}}</div>{{else}}<div class="item-detail"></div>{{/if}}
                     {{#if (isCategoryIn category.id "melee" "ranged" "shield")}}<div class="item-detail">{{localize "COF.combat.usage"}}</div>{{else}}<div class="item-detail"></div>{{/if}}
@@ -50,5 +50,5 @@
         {{/if}}
     {{/each}}
 {{else}}
-    <p class="empty">{{localize "COF.inventory.empty"}}</p>
+    <p class="cof-empty">{{localize "COF.inventory.empty"}}</p>
 {{/if}}

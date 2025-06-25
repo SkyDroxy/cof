@@ -1,13 +1,14 @@
 {{#if (equals capacities.count 0)}}
-    <p class="empty">{{localize "COF.ui.noCapacitySelected"}}</p>
+    <p class="cof-empty">{{localize "COF.ui.noCapacitySelected"}}</p>
 {{else}}
     {{#each capacities.collections as |collection id|}}
         {{#if (gt collection.items.length 0)}}
             <ol class="inventory-list foldable {{#if (includes ../folded.capacities collection.id)}}folded{{/if}}" data-tab="capacities" data-category="{{collection.id}}" data-path-id="{{collection.id}}">
-                <li class="inventory-header flexrow">
-                    <h3 class="item-name flexrow">{{collection.label}}</h3>
+                <li class="inventory-header cof-flexrow">
+                    <h3 class="item-name cof-flexrow">{{collection.label}}</h3>
                     <div class="item-detail">{{localize "COF.ui.rank"}}</div>
                     <div class="item-detail">{{localize "COF.capacity.limited"}}</div>
+                    <div class="item-detail">{{localize "COF.capacity.reaction"}}</div>
                     <div class="item-detail">{{localize "COF.ui.spell"}}</div>
                     <div class="item-detail">{{localize "COF.capacity.usages"}}</div>
                     <div class="item-detail">{{localize "COF.capacity.actions"}}</div>
@@ -19,13 +20,14 @@
                 </li>
                 <ol class="item-list" {{#if (includes ../folded.capacities collection.id)}}style="display: none;"{{/if}}>
                 {{#each collection.items as |capacity id|}}
-                    <li class="item flexrow" data-item-id="{{capacity._id}}" data-item-type="item" data-item-type="item" draggable="true">
-                        <div class="item-name flexrow">
+                    <li class="item cof-flexrow" data-item-id="{{capacity._id}}" data-item-type="item" data-item-type="item" draggable="true">
+                        <div class="item-name cof-flexrow">
                             <div class="item-image" style="background-image: url('{{capacity.img}}')"></div>
                             <h4>{{capacity.name}}</h4>
                         </div>
                         <div class="item-detail" {{#if capacity.system.noXpCost}}data-tooltip='{{localize "COF.ui.noXpCost"}}'{{/if}}>{{#if capacity.system.rank}}{{capacity.system.rank}}{{#if capacity.system.noXpCost}}*{{/if}}{{/if}}</div>
                         <div class="item-detail">{{#if capacity.system.limited}}L{{/if}}</div>
+                        <div class="item-detail">{{#if capacity.system.reaction}}R{{/if}}</div>
                         <div class="item-detail">{{#if capacity.system.spell}}&#10033;{{/if}}</div>
                         <div class="item-detail capacity-qty" title="{{localize "COF.ui.modifyQuantity"}}">{{#if capacity.system.limitedUsage}}{{capacity.system.properties.limitedUsage.use}} / {{capacity.system.properties.limitedUsage.maxUse}}{{/if}}</div>
                         <div class="item-detail">
@@ -53,7 +55,8 @@
                             <div class="item-properties">
                                 {{#if capacity.system.limited}}<span class="tag">{{localize "COF.ui.limited"}}</span>{{/if}}
                                 {{#if capacity.system.spell}}<span class="tag">{{localize "COF.ui.spell"}}</span>{{/if}}
-                                {{#if capacity.system.ranged}}<span class="tag">{{localize "COF.properties.ranged"}}</span>{{/if}}                    
+                                {{#if capacity.system.ranged}}<span class="tag">{{localize "COF.properties.ranged"}}</span>{{/if}}
+                                {{#if capacity.system.reaction}}<span class="tag">{{localize "COF.properties.reaction"}}</span>{{/if}}
                                 {{#if capacity.system.limitedUsage}}<span class="tag">{{localize "COF.ui.limitedUsage"}}</span>{{/if}}
                                 {{#if capacity.system.save}}<span class="tag">{{localize "COF.ui.save"}}</span>{{/if}}
                                 {{#if capacity.system.activable}}<span class="tag">{{localize "COF.properties.activable"}}</span>{{/if}}

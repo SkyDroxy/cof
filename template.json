@@ -455,9 +455,10 @@
       "limited": false,
       "spell": false,
       "ranged": false,
+      "reaction": false,
       "limitedUsage": false,
       "save": false,
-      "activable": false,      
+      "activable": false,
       "heal": false,
       "attack": false,
       "useMacro": false,
@@ -472,6 +473,12 @@
           "use": 0,
           "maxUse": 0
         },
+        "reaction": {
+          "type": "",
+          "stat": "",
+          "difficulty": "",
+          "text": ""
+        },
         "save": {
           "stat": "",
           "difficulty": "",
@@ -485,7 +492,7 @@
             "skillBonus": "",
             "difficulty": null,
             "dmgBase": "",
-            "dmgStat": ""     
+            "dmgStat": ""
         },
         "macro": {
           "name": null,

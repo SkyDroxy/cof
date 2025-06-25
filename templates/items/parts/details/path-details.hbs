@@ -13,8 +13,8 @@
 </div>
 
 <ol class="inventory-list">
-    <li class="inventory-header flexrow">
-        <h3 class="item-name flexrow">{{localize "COF.ui.capacities"}}</h3>
+    <li class="inventory-header cof-flexrow">
+        <h3 class="item-name cof-flexrow">{{localize "COF.ui.capacities"}}</h3>
         <div class="item-detail"></div>
         <div class="item-detail item-rank">{{localize "COF.ui.rank"}}</div>
         <div class="item-controls">
@@ -23,8 +23,8 @@
     </li>
     {{#each system.capacities as |capacity id|}}
     <ol class="item-list">
-        <li class="item flexrow" data-item-id="{{capacity._id}}" data-item-uuid="{{capacity.sourceId}}" data-item-type="capacity" draggable="true">
-            <div class="item-name flexrow">
+        <li class="item cof-flexrow" data-item-id="{{capacity._id}}" data-item-uuid="{{capacity.sourceId}}" data-item-type="capacity" draggable="true">
+            <div class="item-name cof-flexrow">
                 <div class="item-image" style="background-image: url('{{capacity.img}}')"></div>
                 <h4>{{capacity.name}}</h4>
             </div>

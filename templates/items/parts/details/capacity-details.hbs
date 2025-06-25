@@ -12,6 +12,9 @@
             <input type="checkbox" name="system.ranged" {{checked system.ranged}}> {{localize "COF.properties.ranged"}}
         </label>
         <label class="checkbox">
+            <input type="checkbox" name="system.reaction" {{checked system.reaction}}> {{localize "COF.properties.reaction"}}
+        </label>
+        <label class="checkbox">
             <input type="checkbox" name="system.limitedUsage" {{checked system.limitedUsage}}> {{localize "COF.ui.limitedUsage"}} 
         </label>  
         <label class="checkbox">
@@ -56,6 +59,11 @@
             <input type="text" name="system.properties.ranged.radius" value="{{system.properties.ranged.radius}}" placeholder="{{localize "COF.ui.radius"}}" data-dtype="String"/>
         </div>
     </div>
+{{/if}}
+{{#if system.reaction}}
+<div class="form-group">
+    <label>{{localize "COF.ui.reaction"}}</label>
+</div>
 {{/if}}
 {{#if system.limitedUsage}}
     <div class="form-group">

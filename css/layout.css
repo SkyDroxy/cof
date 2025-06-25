@@ -1,0 +1,376 @@
+/* ----------------------------------------- */
+/*  Premade colors                           */
+/* ----------------------------------------- */
+.cof-light {
+  color: lightgray;
+}
+.cof-bg-light {
+  background: lightgray;
+}
+.cof-darkgray {
+  color: #23221d;
+}
+.cof-bg-darkgray {
+  background: #23221d;
+  color: #fff;
+}
+.cof-bg-dark {
+  background: #464331c4;
+  color: #fff;
+}
+.cof-darkslate {
+  color: darkslategray;
+}
+.cof-bg-darkslate {
+  background: darkslategray;
+  color: #fff;
+}
+.cof-darkgreen {
+  color: #003c1e;
+}
+.cof-bg-darkgreen {
+  background: #003c1e;
+  color: #fff;
+}
+.cof-darkblue {
+  color: midnightblue;
+}
+.cof-bg-darkblue {
+  background: midnightblue;
+  color: #fff;
+}
+.cof-blue {
+  color: #009ee0;
+}
+.cof-bg-blue {
+  background: #009ee0;
+  color: #fff;
+}
+.cof-green {
+  color: #44a12b;
+}
+.cof-bg-green {
+  background: #44a12b;
+  color: #fff;
+}
+.cof-black {
+  color: #000;
+}
+.cof-bg-black {
+  background: #000;
+  color: #fff;
+}
+.cof-red {
+  color: #cd071e;
+}
+.cof-bg-red {
+  background: #cd071e;
+  color: #fff;
+}
+.cof-purple {
+  color: purple;
+}
+.cof-bg-purple {
+  background: purple;
+  color: #fff;
+}
+/* Functional Colors*/
+.cof-bg-default {
+  background: #003c1e;
+  color: #fff;
+}
+.cof-color-default {
+  color: #003c1e;
+}
+.cof-bg-header {
+  background: #003c1e;
+  color: #fff;
+}
+.cof-color-header {
+  color: #003c1e;
+}
+.cof-bg-health {
+  background: #44a12b;
+  color: #fff;
+}
+.cof-color-health {
+  color: #44a12b;
+}
+.cof-bg-stats {
+  background: #003c1e;
+  color: #fff;
+}
+.cof-color-stats {
+  color: #003c1e;
+}
+.cof-bg-resource {
+  background: darkslategray;
+  color: #fff;
+}
+.cof-color-resource {
+  color: darkslategray;
+}
+.cof-bg-recovery {
+  background: #44a12b;
+  color: #fff;
+}
+.cof-color-recovery {
+  color: #44a12b;
+}
+
+/* ----------------------------------------- */
+/*  TEXT STYLES                             */
+/* ----------------------------------------- */
+.cof-empty {
+  color: #23221d;
+  font-style: italic;
+}
+.cof-strong {
+  font-weight: bold;
+}
+.cof-ellipse {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.cof-flxrow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.cof-flxrow > * {
+  flex: 1;
+}
+.cof-flxrow .cof-flex1 {
+  flex: 1;
+}
+.cof-flxrow .cof-flex2 {
+  flex: 2;
+}
+.cof-flxrow .cof-flex3 {
+  flex: 3;
+}
+.cof-flxrow .cof-flex4 {
+  flex: 4;
+}
+/* Global styles */
+.window-app {
+  font-family: 'Signika', sans-serif;
+}
+.window-app a:hover {
+  text-shadow: 0 0 8px gray;
+}
+.window-app .cof-rollable:hover,
+.window-app .cof-rollable:focus {
+  text-shadow: 0 0 8px gray;
+  cursor: pointer;
+}
+.window-app.cof.sheet.actor {
+  min-width: 765px;
+  overflow: hidden;
+}
+.window-app.cof.sheet.item {
+  min-width: 430px;
+  overflow: hidden;
+}
+div#sidebar .tab#compendium .cof-compendium-pack[data-pack^="cof"] .cof-pack-title {
+  color: #fffe80;
+}
+div#sidebar .tab#compendium .cof-compendium-pack[data-pack^="cof"] .cof-compendium-footer {
+  color: #a4a164;
+}
+
+/* ----------------------------------------- */
+/*  GRID LAYOUT                              */
+/* ----------------------------------------- */
+.cof-grid {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  font-weight: 100;
+}
+.cof-grid .cof-gridheader {
+  font-weight: bold;
+}
+.cof-grid .cof-gridrow {
+  display: grid;
+  height: 24px;
+  margin: 0 0 1px 0;
+  padding: 0;
+}
+.cof-grid .cof-gridcell {
+  text-align: center;
+  margin: 0 1px 1px 0;
+  padding: 3px;
+  height: 24px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.cof-grid .cof-no-border {
+  border: none !important;
+}
+.cof-grid .cof-gridcell-sm {
+  font-weight: lighter;
+}
+.cof-grid-1col {
+  grid-column: span 1 / span 1;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.cof-grid-2col {
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.cof-grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.cof-grid-4col {
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.cof-grid-5col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.cof-grid-6col-150 {
+  grid-column: span 6 / span 6;
+  grid-template-columns: 3fr 2fr 2fr 2fr 2fr 2fr;
+}
+.cof-grid-6col-200 {
+  grid-column: span 6 / span 6;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+}
+.cof-grid-6col {
+  grid-column: span 6 / span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.cof-grid-7col {
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.cof-grid-8col {
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.cof-grid-9col {
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+.cof-grid-10col {
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+.cof-grid-11col {
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+.cof-grid-12col {
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+/* ----------------------------------------- */
+/*  Flexbox                                  */
+/* ----------------------------------------- */
+.cof-flexrow {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+.cof-flexrow > * {
+  flex: 1;
+}
+.cof-flexrow .cof-flex1 {
+  flex: 1;
+}
+.cof-flexrow .cof-flex2 {
+  flex: 2;
+}
+.cof-flexrow .cof-flex3 {
+  flex: 3;
+}
+.cof-flexrow .cof-flex4 {
+  flex: 4;
+}
+.cof-flexrow .cof-flex5 {
+  flex: 5;
+}
+.cof-flexrow .cof-flex6 {
+  flex: 6;
+}
+.cof-flexrow .cof-flex7 {
+  flex: 7;
+}
+.cof-flexrow .cof-flex8 {
+  flex: 8;
+}
+.cof-flexrow .cof-flex9 {
+  flex: 9;
+}
+.cof-flexcol {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.cof-flexcol > * {
+  flex: 1;
+}
+.cof-flexcol .cof-flex1 {
+  flex: 1;
+}
+.cof-flexcol .cof-flex2 {
+  flex: 2;
+}
+.cof-flexcol .cof-flex3 {
+  flex: 3;
+}
+.cof-flexcol .cof-flex4 {
+  flex: 4;
+}
+.cof-flex-group-center,
+.cof-flex-group-left,
+.cof-flex-group-right {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #999;
+}
+.cof-flex-group-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+.cof-flex-group-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+.cof-center {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cof-left {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.cof-right {
+  justify-content: flex-end;
+  text-align: right;
+  display: flex;
+  align-items: center;
+}
+.cof-flex-center {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.cof-flex-between {
+  justify-content: space-between;
+}
+.cof-no-wrap {
+  flex-wrap: nowrap !important;
+}

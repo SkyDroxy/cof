@@ -88,15 +88,33 @@ export default function registerHooks() {
    * /stats - Génère les caractéristiques d'un personnage
    */
 
-  Hooks.on("chatMessage", (html, content, msg) => {
+  Hooks.on("chatMessage", (chatLog, message, chatData) => {
     let regExp;
     regExp = /(\S+)/g;
-    let commands = content.match(regExp);
-    let command = commands.length > 0 && commands[0].split("/").length > 0 ? commands[0].split("/")[1].trim() : null;
+    let commands = message.match(regExp);
+    let command =
+      commands.length > 0 && commands[0].split("/").length > 0
+        ? commands[0].split("/")[1].trim()
+        : null;
     let arg1 = commands.length > 1 ? commands[1].trim() : null;
     const actor = game.cof.macros.getSpeakersActor();
 
-    const validCommands = ["for", "str", "dex", "con", "int", "sag", "wis", "cha", "atc", "melee", "atd", "ranged", "atm", "magic"];
+    const validCommands = [
+      "for",
+      "str",
+      "dex",
+      "con",
+      "int",
+      "sag",
+      "wis",
+      "cha",
+      "atc",
+      "melee",
+      "atd",
+      "ranged",
+      "atm",
+      "magic",
+    ];
 
     if (command && validCommands.includes(command)) {
       game.cof.macros.rollStatMacro(actor, command, 0, 0, null);
@@ -105,7 +123,9 @@ export default function registerHooks() {
       if (arg1 && validCommands.includes(arg1)) {
         game.cof.macros.rollStatMacro(actor, arg1, 0, 0, null);
       } else {
-        ui.notifications.error(game.i18n.localize("COF.notification.chatHook.noSkillSelected"));
+        ui.notifications.error(
+          game.i18n.localize("COF.notification.chatHook.noSkillSelected")
+        );
       }
       return false;
     } else if (command && command === "stats") {
@@ -114,18 +134,26 @@ export default function registerHooks() {
     }
   });
 
-  Hooks.on("renderChatMessage", (message, html, data) => {
+  Hooks.on("renderChatMessageHTML", (message, html, context) => {
     // Affiche ou non les boutons d'application des dommages
     if (game.settings.get("cof", "displayChatDamageButtonsToAll")) {
-      html.find(".apply-dmg").click((ev) => Hitpoints.onClickChatMessageApplyButton(ev, html, data));
+      html.querySelectorAll(".apply-dmg").forEach((btn) => {
+        btn.addEventListener("click", (ev) =>
+          Hitpoints.onClickChatMessageApplyButton(ev, html, context)
+        );
+      });
     } else {
       if (game.user.isGM) {
-        html.find(".apply-dmg").click((ev) => Hitpoints.onClickChatMessageApplyButton(ev, html, data));
+        html.querySelectorAll(".apply-dmg").forEach((btn) => {
+          btn.addEventListener("click", (ev) =>
+            Hitpoints.onClickChatMessageApplyButton(ev, html, context)
+          );
+        });
       } else {
-        html.find(".apply-dmg").each((i, btn) => {
+        html.querySelectorAll(".apply-dmg").forEach((btn) => {
           btn.style.display = "none";
         });
-        html.find(".dr-checkbox").each((i, btn) => {
+        html.querySelectorAll(".dr-checkbox").forEach((btn) => {
           btn.style.display = "none";
         });
       }
@@ -133,8 +161,11 @@ export default function registerHooks() {
 
     // Affiche ou non la difficulté
     const displayDifficulty = game.settings.get("cof", "displayDifficulty");
-    if (displayDifficulty === "none" || (displayDifficulty === "gm" && !game.user.isGM)) {
-      html.find(".display-difficulty").each((i, elt) => {
+    if (
+      displayDifficulty === "none" ||
+      (displayDifficulty === "gm" && !game.user.isGM)
+    ) {
+      html.querySelectorAll(".display-difficulty").forEach((elt) => {
         elt.remove();
       });
     }
@@ -146,32 +177,34 @@ export default function registerHooks() {
    * Il n'y as pas de preCreateActiveEffect pour les effets transférés depuis un item
    * On procède donc à une mise à jour de l'effet
    */
-  Hooks.on("createActiveEffect", (activeEffect) => {
-    // Si l'effet ne s'applique pas à un actor, on quitte en laissant l'effet se créer normalement
-    if (!activeEffect.parent instanceof CofActor) return;
+  Hooks.on("applyActiveEffect", (actor, change, current, delta, changes) => {
+    // Vérifie que l'effet provient bien d'un item
+    const origin = change.effect?.origin || change.origin;
+    if (!origin || !/Item\.[^.]+$/.test(origin)) return;
 
-    let origin = activeEffect.origin;
-    // Si l'effet ne provient pas d'un item, on quitte en laissant l'effet se créer normalement
-    if (!/Item\.[^.]+$/.test(origin)) return;
-
-    let parts = origin.split(".");
+    // Récupération de l'item parent
+    const parts = origin.split(".");
     let item;
-
-    // Récupération de l'item parent en fonction de si il vient d'un actor du compendium ou d'un token
     if (parts[0] === "Actor") {
-      item = ActorDirectory.collection.get(parts[1])?.getEmbeddedDocument("Item", parts[3]);
+      item = game.actors.get(parts[1])?.items.get(parts[3]);
     } else if (parts[0] === "Scene") {
-      item = SceneDirectory.collection.get(parts[1])?.tokens.get(parts[3])?.getEmbeddedDocument("Item", parts[5]);
-    } else return true;
+      const scene = game.scenes.get(parts[1]);
+      const token = scene?.tokens.get(parts[3]);
+      item = token?.actor?.items.get(parts[5]);
+    }
+    if (!item) return;
 
-    // Si l'item parent n'est pas équipable, on quitte en laissant l'effet se créer normalement
+    // Si l'item parent n'est pas équipable, on quitte
     if (!item.system?.properties?.equipable) return;
 
-    // Si l'effet est déjà à jour, on quitte
-    if (activeEffect.disabled === !item.system.worn) return;
+    // Si l'item n'est pas équipé, on désactive l'effet
+    if (!item.system.worn) {
+      // On ne peut pas désactiver l'effet ici directement, mais on peut empêcher l'application du changement
+      // Pour empêcher l'application, on retourne la valeur courante sans modification
+      return current;
+    }
 
-    // On met à jour l'effet en fonction du fait que l'item est équipé ou non
-    activeEffect.update({ disabled: !itemData.worn });
+    // Sinon, laisse l'effet s'appliquer normalement
   });
 
   Hooks.on("pauseGame", async () => {
@@ -181,10 +214,145 @@ export default function registerHooks() {
     }
   });
 
-  Hooks.on("updateSetting", async (setting) => {
-    if (setting.key === "cof.lockDuringPause") {
+  Hooks.on("clientSettingChanged", async (key, value, options) => {
+    if (key === "cof.lockDuringPause") {
       if (!game.user.isGM && game.paused) {
         updateApplicationToLockDuringPause();
+      }
+    }
+  });
+
+  Hooks.on("combatTurn", async (combat, update, options, userId) => {
+    console.log(
+      "COF | combatTurn hook triggered",
+      combat,
+      update,
+      options,
+      userId
+    );
+    for (let combatant of combat.combatants) {
+      const actor = combatant.actor;
+      if (!actor) continue;
+
+      for (let effect of actor.effects) {
+        const duration = effect.duration;
+        if (!duration) continue;
+
+        const { rounds, turns, startRound, startTurn } = duration;
+        const currentRound = update.round;
+        const currentTurn = update.turn;
+
+        let expired = false;
+        if (rounds != null && startRound != null) {
+          if (currentRound >= startRound + rounds) expired = true;
+        }
+        if (turns != null && startTurn != null) {
+          if (currentTurn >= startTurn + turns) expired = true;
+        }
+        if (!expired) continue;
+
+        const flags = effect.flags?.cof || {};
+        console.log(
+          `COF | Effect "${effect.name}" (${effect.id}) expired:`,
+          expired,
+          "Flags:",
+          flags
+        );
+        // Si c'est la source, on désactive seulement
+        if (flags.isSource === true || flags.isSource === undefined) {
+          console.info(
+            `COF | Disabling effect (expired, source): ${effect.name} (${effect.id})`
+          );
+          await effect.update({ disabled: true });
+        } else {
+          // Sinon, on supprime l'effet chez les cibles
+          console.info(
+            `COF | Deleting effect (expired, target): ${effect.name} (${effect.id})`
+          );
+          await effect.delete();
+        }
+      }
+    }
+  });
+
+  Hooks.on("moveToken", async (document, movement, operation, user) => {
+    const movedToken = canvas.tokens.get(document.id);
+    if (!movedToken) return;
+    console.log(
+      "COF | Token moved (moveToken hook):",
+      movedToken.name,
+      movedToken.id
+    );
+    console.log("COF | Token moved:", movedToken.name, movedToken.id);
+
+    // 1. Suppression si hors de portée
+    for (let token of canvas.tokens.placeables) {
+      if (!token.actor) continue;
+      for (let effect of token.actor.effects) {
+        const flags = effect.flags?.cof;
+        if (!flags?.range || !flags?.sourceTokenId) continue;
+
+        // Si le token déplacé est la source OU la cible de l'effet
+        if (token.id === flags.sourceTokenId || token.id === movedToken.id) {
+          const sourceToken = canvas.tokens.get(flags.sourceTokenId);
+          if (!sourceToken) continue;
+          const distance = canvas.grid.measureDistance(
+            token.center,
+            sourceToken.center
+          );
+          const rangeValue = Number(flags.range);
+          if (!isNaN(rangeValue) && distance > rangeValue) {
+            console.info(
+              `COF | Deleting effect "${effect.name}" (${effect.id}) on "${token.name}" (${token.id}) - out of range`
+            );
+            await effect.delete();
+          }
+        }
+      }
+    }
+
+    // 2. Ajout/réactivation si rapprochement
+    for (let token of canvas.tokens.placeables) {
+      if (!token.actor) continue;
+      for (let effect of token.actor.effects) {
+        const flags = effect.flags?.cof;
+        if (!flags?.range || !flags?.sourceTokenId) continue;
+        // On ne traite que les effets "maîtres" (isSource === true)
+        if (flags.isSource === false) continue;
+
+        const sourceToken = canvas.tokens.get(flags.sourceTokenId);
+        if (!sourceToken) continue;
+
+        // Pour chaque token cible potentiel (hors source)
+        for (let target of canvas.tokens.placeables) {
+          if (!target.actor || target.id === sourceToken.id) continue;
+
+          const distance = canvas.grid.measureDistance(
+            target.center,
+            sourceToken.center
+          );
+          const rangeValue = Number(flags.range);
+          if (isNaN(rangeValue) || distance > rangeValue) continue;
+
+          // Vérifie si l'effet est déjà présent et actif sur la cible
+          const existing = target.actor.effects.find(
+            (e) => e.name === effect.name && e.origin === effect.origin
+          );
+          if (existing && !existing.disabled) continue;
+
+          // Applique l'effet si absent ou désactivé
+          let effectData = foundry.utils.duplicate(effect);
+          if (effectData.flags?.cof) {
+            effectData.flags.cof.isSource = false;
+          }
+          effectData.disabled = false;
+          await target.actor.createEmbeddedDocuments("ActiveEffect", [
+            effectData,
+          ]);
+          console.info(
+            `COF | (Re)applying effect "${effect.name}" (${effect.id}) to "${target.name}" (${target.id}) - entered range`
+          );
+        }
       }
     }
   });

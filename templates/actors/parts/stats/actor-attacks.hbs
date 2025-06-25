@@ -1,51 +1,51 @@
-<div class="flexrow table-header red no-wrap">
-    <div class="flex2 center">
+<div class="cof-flexrow table-header red cof-no-wrap">
+    <div class="cof-flex2 cof-center">
         <div class="field-label ellipsis">{{ localize 'COF.attack.label' }}</div>
     </div>
-    <div class="flex1 center">
+    <div class="cof-flex1 cof-center">
         <div class="field-label">{{ localize 'COF.ui.base' }}</div>
     </div>
-    <div class="flex1 center">
+    <div class="cof-flex1 cof-center">
         <div class="field-label">{{ localize 'COF.ui.bonus' }}</div>
     </div>
-    <div class="flex1 center">
+    <div class="cof-flex1 cof-center">
         <div class="field-label">{{ localize 'COF.ui.malus' }}</div>
     </div>
-    <div class="flex1 center">
+    <div class="cof-flex1 cof-center">
         <div class="field-label">{{ localize 'COF.ui.total' }}</div>
     </div>
 </div>
 {{#each actor.system.attacks as |attack id|}}
     {{!#if attack.enabled}}
-        <div class="flexrow no-wrap">
-            <div class="flex2 center bg-red rollable" data-rolling="system.attacks.{{id}}" data-roll-type="skillcheck">
+        <div class="cof-flexrow cof-no-wrap">
+            <div class="cof-flex2 cof-center cof-bg-red cof-rollable" data-rolling="system.attacks.{{id}}" data-roll-type="skillcheck">
                 <span class="field-label ellipsis"><i class="fas fa-dice-d20"></i>&nbsp;{{ localize attack.abbrev }}</span>
                 <input name="system.attacks.{{id}}.abbrev" type="hidden" value="{{attack.abbrev}}" data-dtype="String"/>
                 <input name="system.attacks.{{id}}.label" type="hidden" value="{{attack.label}}" data-dtype="String"/>
                 <input name="system.attacks.{{id}}.key" type="hidden" value="{{attack.key}}" data-dtype="String"/>
             </div>
-            <div class="flex1 center cell readonly">
+            <div class="cof-flex1 cof-center cell readonly">
                 {{#if (isNull attack.base)}}
                     <input class="field-value" name="system.attacks.{{id}}.base" readonly="true" type="text" value="" placeholder="{{localize "COF.ui.base"}}" data-dtype="Number"/>
                 {{else}}
                     <input class="field-value" name="system.attacks.{{id}}.base" readonly="true" type="text" value="{{numberFormat attack.base decimals=0 sign=true}}" placeholder="{{localize "COF.ui.base"}}" data-dtype="Number"/>
                 {{/if}}
             </div>
-            <div class="flex1 center cell">
+            <div class="cof-flex1 cof-center cell">
                 {{#if (isNull attack.base)}}
                     <input class="field-value" name="system.attacks.{{id}}.bonus" type="text" value="" placeholder="{{localize "COF.ui.bonus"}}" data-dtype="Number"/>
                 {{else}}
                     <input class="field-value" name="system.attacks.{{id}}.bonus" type="text" value="{{numberFormat attack.bonus decimals=0 sign=true}}" placeholder="{{localize "COF.ui.bonus"}}" data-dtype="Number"/>
                 {{/if}}
             </div>
-            <div class="flex1 center cell readonly">
+            <div class="cof-flex1 cof-center cell readonly">
                 {{#if (isNull attack.base)}}
                     <input class="field-value" name="system.attacks.{{id}}.malus" readonly="true" type="text" value="" placeholder="{{localize "COF.ui.malus"}}" data-dtype="Number"/>
                 {{else}}
                     <input class="field-value" name="system.attacks.{{id}}.malus" readonly="true" type="text" value="{{numberFormat attack.malus decimals=0 sign=true}}" placeholder="{{localize "COF.ui.malus"}}" data-dtype="Number"/>
                 {{/if}}
             </div>
-            <div class="flex1 center cell readonly">
+            <div class="cof-flex1 cof-center cell readonly">
                 {{#if (isNull attack.base)}}
                     <input class="field-value" name="system.attacks.{{id}}.mod" readonly="true" type="text" value="" placeholder="{{localize "COF.ui.mod"}}" data-dtype="Number"/>
                 {{else}}
@@ -54,6 +54,6 @@
             </div>
         </div>
     {{!else}}
-<!--        <div class="flexrow"><div class="flex1 spacer"></div></div>-->
+<!--        <div class="cof-flexrow"><div class="cof-flex1 spacer"></div></div>-->
     {{!/if}}
 {{/each}}

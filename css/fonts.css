@@ -1,0 +1,60 @@
+/* ----------------------------------------- */
+/*  LOCAL FONTS                             */
+/* ----------------------------------------- */
+@font-face {
+  font-family: "MyriadPro";
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/MyriadPro-Regular.otf');
+}
+@font-face {
+  font-family: "MyriadPro";
+  font-style: italic;
+  font-weight: 400;
+  src: url('../fonts/MyriadPro-It.otf');
+}
+@font-face {
+  font-family: "MyriadPro";
+  font-weight: 700;
+  src: url('../fonts/MyriadPro-Bold.otf');
+}
+@font-face {
+  font-family: "MyriadPro";
+  font-weight: 700;
+  font-style: italic;
+  src: url('../fonts/MyriadPro-BoldIt.otf');
+}
+@font-face {
+  font-family: "MyriadPro";
+  font-style: normal;
+  font-weight: 200;
+  src: url('../fonts/MyriadPro-Light.otf');
+}
+@font-face {
+  font-family: "MyriadPro";
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/MyriadPro-Black.otf');
+}
+@font-face {
+  font-family: "PermanentMarker";
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/PermanentMarker-Regular.ttf');
+}
+@font-face {
+  font-family: 'Modesto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../../../fonts/modesto-condensed/modesto-condensed.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Modesto Condensed';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../../../fonts/modesto-condensed/modesto-condensed-bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: "ChN1Regular";
+  src: url('../fonts/ChN1_Regular.ttf');
+}

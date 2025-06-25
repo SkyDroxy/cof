@@ -51,16 +51,16 @@
 <h3 class="form-header">{{localize "COF.attributes.resources.label"}}</h3>
 
 <ol class="inventory-list">
-    <li class="inventory-header flexrow">
-        <h3 class="item-name flexrow">{{localize "COF.tabs.paths"}}</h3>
+    <li class="inventory-header cof-flexrow">
+        <h3 class="item-name cof-flexrow">{{localize "COF.tabs.paths"}}</h3>
         <div class="item-controls">
             <a class="item-control item-create cof-compendium-pack" data-pack="paths" data-open="0" title="{{localize "COF.path.add"}}"><i class="fas fa-plus"></i>&nbsp; {{localize "COF.ui.add"}}</a>
         </div>
     </li>
 {{#each system.paths as |path id|}}
     <ol class="item-list">
-        <li class="item flexrow" data-item-id="{{path._id}}" data-item-uuid="{{path.sourceId}}" data-item-type="path" data-key="{{path.system.key}}" draggable="true">
-            <div class="item-name flexrow">
+        <li class="item cof-flexrow" data-item-id="{{path._id}}" data-item-uuid="{{path.sourceId}}" data-item-type="path" data-key="{{path.system.key}}" draggable="true">
+            <div class="item-name cof-flexrow">
                 <div class="item-image" style="background-image: url('{{path.img}}')"></div>
                 <h4>{{path.name}}</h4>
             </div>

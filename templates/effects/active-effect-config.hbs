@@ -30,6 +30,41 @@
             {{editor descriptionHTML target="description" button=false editable=editable engine="prosemirror" collaborate=false}}
         </div>
 
+        <!-- Option pour afficher le champ Script -->
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="flags.cof.hasScript" {{#if hasScript}}checked{{/if}}/>
+                Afficher un champ Script personnalisé
+            </label>
+        </div>
+        {{#if hasScript}}
+        <div class="form-group stacked">
+            <label>Script</label>
+            <input type="text" name="flags.cof.script" value="{{script}}" placeholder="Script personnalisé"/>
+        </div>
+        {{/if}}
+
+        <!-- Option pour afficher le champ Portée -->
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="flags.cof.hasRange" {{#if hasRange}}checked{{/if}}/>
+                Afficher un champ Portée
+            </label>
+        </div>
+        {{#if hasRange}}
+        <div class="form-group stacked">
+            <label>Portée</label>
+            <input type="text" name="flags.cof.range" value="{{range}}" placeholder="Portée de l'effet"/>
+        </div>
+        <div class="form-group stacked">
+            <label>À qui s'applique l'effet ?</label>
+            <select name="flags.cof.rangeTarget">
+                <option value="all" {{#if (eq rangeTarget "all")}}selected{{/if}}>Tout le monde</option>
+                <option value="players" {{#if (eq rangeTarget "players")}}selected{{/if}}>Joueurs seulement</option>
+            </select>
+        </div>
+        {{/if}}
+
         <div class="form-group">
             <label>{{ localize "EFFECT.Disabled" }}</label>
             <input type="checkbox" name="disabled" {{ checked data.disabled }}/>
@@ -99,7 +134,7 @@
 
     <!-- Effects Tab -->
     <section class="tab" data-tab="effects">
-        <header class="effect-change effects-header flexrow">
+        <header class="effect-change effects-header cof-flexrow">
             <div class="key">{{ localize "EFFECT.ChangeKey" }}</div>
             <div class="mode">{{ localize "EFFECT.ChangeMode" }}</div>
             <div class="value">{{ localize "EFFECT.ChangeValue" }}</div>
@@ -116,7 +151,7 @@
 
         <ol class="changes-list">
             {{#each data.changes as |change i|}}
-            <li class="effect-change flexrow" data-index="{{i}}">
+            <li class="effect-change cof-flexrow" data-index="{{i}}">
                 {{#if (equals @root.targetType "SelectEffectTarget")}}
                     <select name="changes.{{i}}.key">
                             {{selectOptions ../config.activeEffectChanges selected=change.key localize=true}}

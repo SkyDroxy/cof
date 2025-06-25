@@ -149,7 +149,7 @@ export class LevelUpSheet extends FormApplication {
 
             let table = currentTarget.parents().get().find(elem=>elem.tagName==="TABLE");            
             
-            let pathCapacitiesElems = Array.from(table.querySelectorAll(`.selectable[path-id="${selectedPathId}"]`));
+            let pathCapacitiesElems = Array.from(tablehtml.find(`.selectable[path-id="${selectedPathId}"]`));
 
             // Gestion de la Sélection/Désélection des autres capacités de la voie
             // En cas de sélection, sélection automatique des capacités de rang inférieur
@@ -181,7 +181,7 @@ export class LevelUpSheet extends FormApplication {
             });
 
             // Gestion de l'activation/désactivation des capacités en fonction des points restants
-            let selectableElements = table.querySelectorAll(`.selectable`);        
+            let selectableElements = tablehtml.find(`.selectable`);        
             selectableElements.forEach((elem)=>{
                 let elemPathId = elem.getAttribute('path-id');
                 let checkbox = elem.getElementsByTagName('input')[0];
@@ -192,7 +192,7 @@ export class LevelUpSheet extends FormApplication {
                     // Récupération de toutes les capacités de la même voie ET de rang inférieur ET non cochées
                     // pour calcul le coût total de la capacité
                     // (les capacités déjà cochées, ont déjà été déduite des points restants)
-                    let pathCapacities = Array.from(table.querySelectorAll(`.selectable[path-id="${elemPathId}"]`)).filter(capacity=> +capacity.getAttribute("capacity-rank") < +elem.getAttribute("capacity-rank") && !capacity.getElementsByTagName('input')[0].checked);
+                    let pathCapacities = Array.from(tablehtml.find(`.selectable[path-id="${elemPathId}"]`)).filter(capacity=> +capacity.getAttribute("capacity-rank") < +elem.getAttribute("capacity-rank") && !capacity.getElementsByTagName('input')[0].checked);
                     pathCapacities.forEach((capa)=>{
                             totalCost += +capa.getAttribute("capacity-rank") <= 2 ? 1 : 2;
                     });

@@ -1,8 +1,8 @@
 {{!log 'item-sheet' this}}
 <form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header flexrow header-background no-wrap">
+    <header class="sheet-header cof-flexrow header-background cof-no-wrap">
         <img class="profile" src="{{item.img}}" title="{{item.name}}" data-edit="img">
-        <div class="header-details flexrow">
+        <div class="header-details cof-flexrow">
             <h1 class="charname">
                 <input name="name" type="text" value="{{item.name}}" placeholder="Item Name"/>
             </h1>
@@ -14,7 +14,7 @@
                     {{/if}}
                 </span>
             </div>
-            <ul class="summary flexrow">
+            <ul class="summary cof-flexrow">
                 <li>
                     {{#if system.source}}
                         <input type="text" name="system.source" value="{{system.source}}" placeholder="{{ localize 'COF.ui.source' }}"/>
@@ -46,7 +46,7 @@
     {{/if}}
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-        <div class="tab flexrow active" data-group="primary" data-tab="description">
+        <div class="tab cof-flexrow active" data-group="primary" data-tab="description">
             {{> "systems/cof/templates/items/parts/properties/item-properties.hbs"}}
             {{editor enrichedDescription target="system.description" button=true owner=owner editable=editable}}
         </div>

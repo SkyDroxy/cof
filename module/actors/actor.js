@@ -27,28 +27,90 @@ export class CofActor extends Actor {
 
     // S'il s'agit d'un actor de type "encounter", on lui ajoute la méthode "rollWeapon"
     if (data.type === "encounter") {
-      this.rollWeapon = async function (weaponId, customLabel = "", dmgOnly = false, bonus = 0, malus = 0, dmgBonus = 0, skillDescr = "", dmgDescr = "", dialog = true, rollMode) {
+      this.rollWeapon = async function (
+        weaponId,
+        customLabel = "",
+        dmgOnly = false,
+        bonus = 0,
+        malus = 0,
+        dmgBonus = 0,
+        skillDescr = "",
+        dmgDescr = "",
+        dialog = true,
+        rollMode
+      ) {
         let weapons = this.system.weapons;
-        if ((Array.isArray(weapons) && weapons.length <= weaponId) || !weapons[weaponId]) {
-          ui.notifications.warn(`${game.i18n.localize("COF.notification.WeaponIndexMissing")} ${weaponId}`);
+        if (
+          (Array.isArray(weapons) && weapons.length <= weaponId) ||
+          !weapons[weaponId]
+        ) {
+          ui.notifications.warn(
+            `${game.i18n.localize(
+              "COF.notification.WeaponIndexMissing"
+            )} ${weaponId}`
+          );
           return;
         }
         let weapon = this.system.weapons[weaponId];
         let label = customLabel ? customLabel : weapon.name;
 
         if (dialog) {
-          if (!dmgOnly) CofRoll.rollWeaponDialog(this, label, weapon.mod, bonus, malus, weapon.critrange, weapon.dmg, dmgBonus, null, skillDescr, dmgDescr, null, this.isWeakened(), rollMode);
-          else CofRoll.rollDamageDialog(this, label, weapon.dmg, dmgBonus, false, null, dmgDescr, rollMode);
+          if (!dmgOnly)
+            CofRoll.rollWeaponDialog(
+              this,
+              label,
+              weapon.mod,
+              bonus,
+              malus,
+              weapon.critrange,
+              weapon.dmg,
+              dmgBonus,
+              null,
+              skillDescr,
+              dmgDescr,
+              null,
+              this.isWeakened(),
+              rollMode
+            );
+          else
+            CofRoll.rollDamageDialog(
+              this,
+              label,
+              weapon.dmg,
+              dmgBonus,
+              false,
+              null,
+              dmgDescr,
+              rollMode
+            );
         } else {
           let formula = dmgBonus ? `${weapon.dmg} + ${dmgBonus}` : weapon.dmg;
-          if (dmgOnly) new CofDamageRoll(label, formula, false, dmgDescr, rollMode).roll();
+          if (dmgOnly)
+            new CofDamageRoll(label, formula, false, dmgDescr, rollMode).roll();
           else {
-            let skillRoll = await new CofSkillRoll(label, this.isWeakened() ? "1d12" : "1d20", `+${+weapon.mod}`, bonus, malus, null, weapon.critrange, skillDescr, rollMode).roll();
+            let skillRoll = await new CofSkillRoll(
+              label,
+              this.isWeakened() ? "1d12" : "1d20",
+              `+${+weapon.mod}`,
+              bonus,
+              malus,
+              null,
+              weapon.critrange,
+              skillDescr,
+              rollMode
+            ).roll();
 
             let result = skillRoll.dice[0].results[0].result;
-            let critical = result >= weapon.critrange.split("-")[0] || result == 20;
+            let critical =
+              result >= weapon.critrange.split("-")[0] || result == 20;
 
-            new CofDamageRoll(label, formula, critical, dmgDescr, rollMode).roll();
+            new CofDamageRoll(
+              label,
+              formula,
+              critical,
+              dmgDescr,
+              rollMode
+            ).roll();
           }
         }
       };
@@ -82,7 +144,10 @@ export class CofActor extends Actor {
 
     // Apply changes in Actor size to Token width/height
     const newSize = foundry.utils.getProperty(changed, "system.details.size");
-    if (newSize && newSize !== foundry.utils.getProperty(this.system, "system.details.size")) {
+    if (
+      newSize &&
+      newSize !== foundry.utils.getProperty(this.system, "system.details.size")
+    ) {
       let size = CONFIG.COF.tokenSizes[newSize];
       if (!foundry.utils.hasProperty(changed, "prototypeToken.width")) {
         changed.prototypeToken ||= {};
@@ -200,7 +265,8 @@ export class CofActor extends Actor {
     let attributes = actor.system.attributes;
 
     // Points de vie
-    if (attributes.hp.value > attributes.hp.max) attributes.hp.value = attributes.hp.max;
+    if (attributes.hp.value > attributes.hp.max)
+      attributes.hp.value = attributes.hp.max;
     if (attributes.hp.value < 0) attributes.hp.value = 0;
   }
 
@@ -248,7 +314,10 @@ export class CofActor extends Actor {
 
     // Caractéristiques et leurs modificateurs
     for (const [key, stat] of Object.entries(stats)) {
-      stat.racial = species && species.system.bonuses[key] ? species.system.bonuses[key] : stat.racial;
+      stat.racial =
+        species && species.system.bonuses[key]
+          ? species.system.bonuses[key]
+          : stat.racial;
       stat.value = stat.base + stat.racial + stat.bonus;
       stat.mod = Stats.getModFromStatValue(stat.value);
     }
@@ -257,24 +326,28 @@ export class CofActor extends Actor {
     attributes.init.base = stats.dex.value;
 
     attributes.init.malus = this.getMalusToInitiative();
-    attributes.init.value = attributes.init.base + attributes.init.bonus + attributes.init.malus;
+    attributes.init.value =
+      attributes.init.base + attributes.init.bonus + attributes.init.malus;
 
     // Points de chance
     attributes.fp.base = this.computeBaseFP(stats.cha.mod, profile);
     attributes.fp.max = attributes.fp.base + attributes.fp.bonus;
 
-    if (attributes.fp.value > attributes.fp.max) attributes.fp.value = attributes.fp.max;
+    if (attributes.fp.value > attributes.fp.max)
+      attributes.fp.value = attributes.fp.max;
     if (attributes.fp.value < 0) attributes.fp.value = 0;
 
     // Réduction des dommages
     // Réduction apportée par les armures portées : rdFromArmor
-    attributes.dr.value = attributes.dr.base.value + attributes.dr.bonus.value + this.rdFromItems;
+    attributes.dr.value =
+      attributes.dr.base.value + attributes.dr.bonus.value + this.rdFromItems;
 
     // Points de récupération
     attributes.rp.base = this.computeBaseRP(actor);
     attributes.rp.max = attributes.rp.base + attributes.rp.bonus;
 
-    if (attributes.rp.value >= attributes.rp.max) attributes.rp.value = attributes.rp.max;
+    if (attributes.rp.value >= attributes.rp.max)
+      attributes.rp.value = attributes.rp.max;
     if (attributes.rp.value < 0) attributes.rp.value = 0;
 
     // DV
@@ -282,14 +355,16 @@ export class CofActor extends Actor {
     attributes.hp.max = attributes.hp.base + attributes.hp.bonus;
 
     // Points de vie
-    if (attributes.hp.value > attributes.hp.max) attributes.hp.value = attributes.hp.max;
+    if (attributes.hp.value > attributes.hp.max)
+      attributes.hp.value = attributes.hp.max;
     if (attributes.hp.value < 0) attributes.hp.value = 0;
 
     // Points de magie
     attributes.mp.base = this.getMagicPoints(lvl, stats, profile);
     attributes.mp.max = attributes.mp.base + attributes.mp.bonus;
 
-    if (attributes.mp.value > attributes.mp.max) attributes.mp.value = attributes.mp.max;
+    if (attributes.mp.value > attributes.mp.max)
+      attributes.mp.value = attributes.mp.max;
     if (attributes.mp.value < 0) attributes.mp.value = 0;
   }
 
@@ -324,7 +399,8 @@ export class CofActor extends Actor {
 
     // Malus de l'incompétence avec l'armure ou le bouclier
     for (let attack of Object.values(attacks)) {
-      attack.malus = this.getIncompetentArmourMalus() + this.getIncompetentShieldMalus();
+      attack.malus =
+        this.getIncompetentArmourMalus() + this.getIncompetentShieldMalus();
     }
 
     // Malus de l'encombrement de l'armure
@@ -346,13 +422,14 @@ export class CofActor extends Actor {
    * @param {Actor} actor
    */
   computeDef(actor) {
-     let stats = actor.system.stats;
+    let stats = actor.system.stats;
     let attributes = actor.system.attributes;
 
     const protection = this.getDefenceFromArmorAndShield();
 
     attributes.def.base = 10 + stats.dex.mod + protection;
-    attributes.def.value = attributes.def.base + attributes.def.bonus + attributes.def.malus;
+    attributes.def.value =
+      attributes.def.base + attributes.def.bonus + attributes.def.malus;
   }
 
   /**
@@ -377,7 +454,11 @@ export class CofActor extends Actor {
       .map((cap) => {
         const path = this.getItemByName(cap.system.path.name);
         const isPrestige = path?.system.properties.prestige ? true : false;
-        let cost = cap.system.noXpCost ? 0 : ((isPrestige || cap.system.rank > 2) ? 2 : 1);
+        let cost = cap.system.noXpCost
+          ? 0
+          : isPrestige || cap.system.rank > 2
+          ? 2
+          : 1;
         return cost;
       })
       .reduce((acc, curr) => acc + curr, 0);
@@ -387,11 +468,17 @@ export class CofActor extends Actor {
     actor.system.xp.value = maxxp - currxp;
     if (maxxp - currxp < 0) {
       const diff = currxp - maxxp;
-      alert.msg = game.i18n.format("COF.msg.xp.superior", { diff: diff, plural: diff > 1 ? "s" : "" });
+      alert.msg = game.i18n.format("COF.msg.xp.superior", {
+        diff: diff,
+        plural: diff > 1 ? "s" : "",
+      });
       alert.type = "error";
     } else if (maxxp - currxp > 0) {
       const diff = maxxp - currxp;
-      alert.msg = game.i18n.format("COF.msg.xp.inferior", { diff: diff, plural: diff > 1 ? "s" : "" });
+      alert.msg = game.i18n.format("COF.msg.xp.inferior", {
+        diff: diff,
+        plural: diff > 1 ? "s" : "",
+      });
       alert.type = "info";
     } else {
       alert.msg = null;
@@ -575,7 +662,10 @@ export class CofActor extends Actor {
    * @returns {int} retourne le malus (négatif) ou 0
    */
   getMalusToInitiative() {
-    return this.getOverloadMalusToInitiative() + this.getIncompetentMalusToInitiative();
+    return (
+      this.getOverloadMalusToInitiative() +
+      this.getIncompetentMalusToInitiative()
+    );
   }
 
   /**
@@ -667,7 +757,9 @@ export class CofActor extends Actor {
       if (game.settings.get("cof", "useOverload")) {
         const malusFromArmor = this.getMalusFromArmor();
         const otherMod = this.getOverloadedOtherMod();
-        malus = malus + (malusFromArmor + otherMod > 0 ? 0 : malusFromArmor + otherMod);
+        malus =
+          malus +
+          (malusFromArmor + otherMod > 0 ? 0 : malusFromArmor + otherMod);
       }
     }
     return malus;
@@ -703,29 +795,50 @@ export class CofActor extends Actor {
   getMalusFromArmor() {
     let malus = 0;
     let protections = this.items
-      .filter((i) => i.type === "item" && i.system.subtype === "armor" && i.system.worn && i.system.def)
+      .filter(
+        (i) =>
+          i.type === "item" &&
+          i.system.subtype === "armor" &&
+          i.system.worn &&
+          i.system.def
+      )
       .map((i) => -1 * i.system.defBase + i.system.defBonus);
-    if (protections.length > 0) malus = protections.reduce((acc, curr) => acc + curr, 0);
+    if (protections.length > 0)
+      malus = protections.reduce((acc, curr) => acc + curr, 0);
     return malus;
   }
 
-   /**
+  /**
    * @name getRDFromArmor
    * @description calcule la Résistance aux dégâts lié à l'armure équipée
    * @returns {Int} 0 ou la RD
    */
-    get rdFromItems() {
-      let rd = 0;
-      let protections = this.items
-        .filter((i) => {
-          if (i.type === "item" && i.system.properties.equipable && i.system.worn && i.system.properties.protection && i.system.properties.dr) return true;
-          if (i.type === "item" && !i.system.properties.equipable && i.system.properties.protection && i.system.properties.dr) return true;
-          return false;
-        })
-        .map((i) => i.system.dr);
-      if (protections.length > 0) rd = protections.reduce((acc, curr) => acc + curr, 0);
-      return rd;
-    }
+  get rdFromItems() {
+    let rd = 0;
+    let protections = this.items
+      .filter((i) => {
+        if (
+          i.type === "item" &&
+          i.system.properties.equipable &&
+          i.system.worn &&
+          i.system.properties.protection &&
+          i.system.properties.dr
+        )
+          return true;
+        if (
+          i.type === "item" &&
+          !i.system.properties.equipable &&
+          i.system.properties.protection &&
+          i.system.properties.dr
+        )
+          return true;
+        return false;
+      })
+      .map((i) => i.system.dr);
+    if (protections.length > 0)
+      rd = protections.reduce((acc, curr) => acc + curr, 0);
+    return rd;
+  }
 
   /**
    * @name getOverloadedOtherMod
@@ -734,7 +847,9 @@ export class CofActor extends Actor {
    * @returns {int} retourne le modificateur (positif ou négatif)
    */
   getOverloadedOtherMod() {
-    return this.system?.attributes?.overload?.misc ? this.system?.attributes?.overload?.misc : 0;
+    return this.system?.attributes?.overload?.misc
+      ? this.system?.attributes?.overload?.misc
+      : 0;
   }
 
   /**
@@ -754,7 +869,11 @@ export class CofActor extends Actor {
     let incompetentMod = 0;
 
     const fromStat = eval("this.system." + itemModStat);
-    if (game.settings.get("cof", "useIncompetentPJ") && weaponCategory && !this.isCompetentWithWeapon(weaponCategory)) {
+    if (
+      game.settings.get("cof", "useIncompetentPJ") &&
+      weaponCategory &&
+      !this.isCompetentWithWeapon(weaponCategory)
+    ) {
       incompetentMod = this.getIncompetentMalus();
     }
     total = fromStat + itemModBonus + incompetentMod;
@@ -860,8 +979,17 @@ export class CofActor extends Actor {
    */
   getDefenceFromArmor() {
     let protection = 0;
-    let protections = this.items.filter((i) => i.type === "item" && i.system.subtype === "armor" && i.system.worn && i.system.def).map((i) => i.system.def);
-    if (protections.length > 0) protection = protections.reduce((acc, curr) => acc + curr, 0);
+    let protections = this.items
+      .filter(
+        (i) =>
+          i.type === "item" &&
+          i.system.subtype === "armor" &&
+          i.system.worn &&
+          i.system.def
+      )
+      .map((i) => i.system.def);
+    if (protections.length > 0)
+      protection = protections.reduce((acc, curr) => acc + curr, 0);
     return protection;
   }
 
@@ -872,8 +1000,17 @@ export class CofActor extends Actor {
    */
   getDefenceFromShield() {
     let protection = 0;
-    let protections = this.items.filter((i) => i.type === "item" && i.system.subtype === "shield" && i.system.worn && i.system.def).map((i) => i.system.def);
-    if (protections.length > 0) protection = protections.reduce((acc, curr) => acc + curr, 0);
+    let protections = this.items
+      .filter(
+        (i) =>
+          i.type === "item" &&
+          i.system.subtype === "shield" &&
+          i.system.worn &&
+          i.system.def
+      )
+      .map((i) => i.system.def);
+    if (protections.length > 0)
+      protection = protections.reduce((acc, curr) => acc + curr, 0);
     return protection;
   }
 
@@ -885,7 +1022,18 @@ export class CofActor extends Actor {
   rollStat(stat, options = {}) {
     const { bonus = 0, malus = 0 } = options;
 
-    return Macros.rollStatMacro(this, stat, bonus, malus, null, options.label, options.descr, options.dialog, options.dice, options.difficulty);
+    return Macros.rollStatMacro(
+      this,
+      stat,
+      bonus,
+      malus,
+      null,
+      options.label,
+      options.descr,
+      options.dialog,
+      options.dice,
+      options.difficulty
+    );
   }
 
   /**
@@ -897,7 +1045,9 @@ export class CofActor extends Actor {
   async syncItemActiveEffects(item, value) {
     // Récupération des effets qui proviennent de l'item
     //let effectsData = this.effects.filter(effect=>effect.data.origin.endsWith(item.id))?.map(effect=> foundry.utils.duplicate(effect.data));
-    let effects = this.getEffectsFromItemId(item.id)?.map((effect) => foundry.utils.duplicate(effect));
+    let effects = this.getEffectsFromItemId(item.id)?.map((effect) =>
+      foundry.utils.duplicate(effect)
+    );
 
     if (effects.length > 0) {
       effects.forEach((effect) => (effect.disabled = value));
@@ -942,21 +1092,46 @@ export class CofActor extends Actor {
 
       if (game.settings.get("cof", "useIncompetentPJ") && !item.system.worn) {
         // Prend en compte les règles de PJ Incompétent : utilisation d'équipement non maîtrisé par le PJ
-        if (item.system.subtype === "armor" || item.system.subtype === "shield") {
+        if (
+          item.system.subtype === "armor" ||
+          item.system.subtype === "shield"
+        ) {
           const armorCategory = item.getMartialCategory();
           if (!this.isCompetentWithArmor(armorCategory)) {
-            ui.notifications?.warn(game.i18n.format("COF.notification.incompetentWithArmor", { name: this.name, item: item.name }));
+            ui.notifications?.warn(
+              game.i18n.format("COF.notification.incompetentWithArmor", {
+                name: this.name,
+                item: item.name,
+              })
+            );
           }
         }
-        if (item.system.subtype === "melee" || item.system.subtype === "ranged") {
+        if (
+          item.system.subtype === "melee" ||
+          item.system.subtype === "ranged"
+        ) {
           const weaponCategory = item.getMartialCategory();
           if (!this.isCompetentWithWeapon(weaponCategory)) {
-            ui.notifications?.warn(game.i18n.format("COF.notification.incompetentWithWeapon", { name: this.name, item: item.name }));
+            ui.notifications?.warn(
+              game.i18n.format("COF.notification.incompetentWithWeapon", {
+                name: this.name,
+                item: item.name,
+              })
+            );
           }
         }
       }
       await this.updateEmbeddedDocuments("Item", [updates]);
-      if (game.settings.get("cof", "useActionSound")) foundry.audio.AudioHelper.play({ src: "/systems/cof/sounds/sword.mp3", volume: 0.8, autoplay: true, loop: false }, false);
+      if (game.settings.get("cof", "useActionSound"))
+        foundry.audio.AudioHelper.play(
+          {
+            src: "/systems/cof/sounds/sword.mp3",
+            volume: 0.8,
+            autoplay: true,
+            loop: false,
+          },
+          false
+        );
       if (!bypassChecks) this.syncItemActiveEffects(item, !item.system.worn);
     }
   }
@@ -968,21 +1143,33 @@ export class CofActor extends Actor {
    */
   canEquipItem(item, bypassChecks) {
     if (!this.items.some((it) => it.id === item.id)) {
-      ui.notifications.warn(game.i18n.format("COF.notification.MacroItemMissing", { item: item.name }));
+      ui.notifications.warn(
+        game.i18n.format("COF.notification.MacroItemMissing", {
+          item: item.name,
+        })
+      );
       return false;
     }
     let itemData = item.system;
     if (!itemData?.properties.equipment || !itemData?.properties.equipable) {
-      ui.notifications.warn(game.i18n.format("COF.notification.ItemNotEquipable", { itemName: item.name }));
+      ui.notifications.warn(
+        game.i18n.format("COF.notification.ItemNotEquipable", {
+          itemName: item.name,
+        })
+      );
       return;
     }
 
     if (!this._hasEnoughFreeHands(item, bypassChecks)) {
-      ui.notifications.warn(game.i18n.localize("COF.notification.NotEnoughFreeHands"));
+      ui.notifications.warn(
+        game.i18n.localize("COF.notification.NotEnoughFreeHands")
+      );
       return false;
     }
     if (!this._isArmorSlotAvailable(item, bypassChecks)) {
-      ui.notifications.warn(game.i18n.localize("COF.notification.ArmorSlotNotAvailable"));
+      ui.notifications.warn(
+        game.i18n.localize("COF.notification.ArmorSlotNotAvailable")
+      );
       return false;
     }
 
@@ -1001,7 +1188,11 @@ export class CofActor extends Actor {
     if (!checkFreehands || checkFreehands === "none") return true;
 
     // Si le contrôle est ignoré ponctuellement avec la touche MAJ, on renvoi Vrai
-    if (bypassChecks && (checkFreehands === "all" || (checkFreehands === "gm" && game.user.isGM))) return true;
+    if (
+      bypassChecks &&
+      (checkFreehands === "all" || (checkFreehands === "gm" && game.user.isGM))
+    )
+      return true;
 
     // Si l'objet est équipé, on tente de le déséquiper donc on ne fait pas de contrôle et on renvoi Vrai
     if (item.system.worn) return true;
@@ -1013,9 +1204,13 @@ export class CofActor extends Actor {
     let neededHands = item.system.properties["2H"] ? 2 : 1;
 
     // Calcul du nombre de mains déjà utilisées
-    let itemsInHands = this.items.filter((item) => item.system.worn && item.system.slot === "hand");
+    let itemsInHands = this.items.filter(
+      (item) => item.system.worn && item.system.slot === "hand"
+    );
     let usedHands = 0;
-    itemsInHands.forEach((item) => (usedHands += item.system.properties["2H"] ? 2 : 1));
+    itemsInHands.forEach(
+      (item) => (usedHands += item.system.properties["2H"] ? 2 : 1)
+    );
 
     return usedHands + neededHands <= 2;
   }
@@ -1028,11 +1223,20 @@ export class CofActor extends Actor {
    */
   _isArmorSlotAvailable(item, bypassChecks) {
     // Si le contrôle de disponibilité de l'emplacement d'armure n'est pas demandé, on renvoi Vrai
-    let checkArmorSlotAvailability = game.settings.get("cof", "checkArmorSlotAvailability");
-    if (!checkArmorSlotAvailability || checkArmorSlotAvailability === "none") return true;
+    let checkArmorSlotAvailability = game.settings.get(
+      "cof",
+      "checkArmorSlotAvailability"
+    );
+    if (!checkArmorSlotAvailability || checkArmorSlotAvailability === "none")
+      return true;
 
     // Si le contrôle est ignoré ponctuellement avec la touche MAJ, on renvoi Vrai
-    if (bypassChecks && (checkArmorSlotAvailability === "all" || (checkArmorSlotAvailability === "gm" && game.user.isGM))) return true;
+    if (
+      bypassChecks &&
+      (checkArmorSlotAvailability === "all" ||
+        (checkArmorSlotAvailability === "gm" && game.user.isGM))
+    )
+      return true;
 
     const itemData = item.system;
 
@@ -1046,7 +1250,12 @@ export class CofActor extends Actor {
     let equipedItem = this.items.find((slotItem) => {
       let slotItemData = slotItem.system;
 
-      return slotItemData.properties?.protection && slotItemData.properties.equipable && slotItemData.worn && slotItemData.slot === itemData.slot;
+      return (
+        slotItemData.properties?.protection &&
+        slotItemData.properties.equipable &&
+        slotItemData.worn &&
+        slotItemData.slot === itemData.slot
+      );
     });
 
     // Renvoie vrai si le le slot est libre, sinon renvoi faux
@@ -1063,10 +1272,23 @@ export class CofActor extends Actor {
     const quantity = item.system.qty;
 
     if (consumable && quantity > 0) {
-      if (game.settings.get("cof", "useActionSound")) foundry.audio.AudioHelper.play({ src: "/systems/cof/sounds/gulp.mp3", volume: 0.8, autoplay: true, loop: false }, false);
-      return item.modifyQuantity(1, true).then((item) => item.applyEffects(this));
+      if (game.settings.get("cof", "useActionSound"))
+        foundry.audio.AudioHelper.play(
+          {
+            src: "/systems/cof/sounds/gulp.mp3",
+            volume: 0.8,
+            autoplay: true,
+            loop: false,
+          },
+          false
+        );
+      return item
+        .modifyQuantity(1, true)
+        .then((item) => item.applyEffects(this));
     }
-    return ui.notifications.warn(game.i18n.localize("COF.notification.ConsumeEmptyObject"));
+    return ui.notifications.warn(
+      game.i18n.localize("COF.notification.ConsumeEmptyObject")
+    );
   }
 
   /**
@@ -1086,7 +1308,11 @@ export class CofActor extends Actor {
    */
   isItemEquipped(item) {
     if (!this.items.some((it) => it._id === item._id)) {
-      ui.notifications.warn(game.i18n.format("COF.notification.MacroItemMissing", { item: item.name }));
+      ui.notifications.warn(
+        game.i18n.format("COF.notification.MacroItemMissing", {
+          item: item.name,
+        })
+      );
       return false;
     }
     return (item.system.properties?.equipable ?? false) && item.system.worn;
@@ -1185,7 +1411,6 @@ export class CofActor extends Actor {
    * @returns
    */
   activateCapacity(capacity, options) {
-
     const capacitySystem = capacity.system;
     const activable = capacitySystem.activable;
     const limitedUsage = capacitySystem.limitedUsage;
@@ -1194,18 +1419,36 @@ export class CofActor extends Actor {
     if (activable) {
       if (buff) {
         const newStatus = !capacitySystem.properties.buff.activated;
-        return capacity.update({ "system.properties.buff.activated": newStatus }).then((capacity) => this.syncItemActiveEffects(capacity, !newStatus));
+        return capacity
+          .update({ "system.properties.buff.activated": newStatus })
+          .then((capacity) => this.syncItemActiveEffects(capacity, !newStatus));
       }
       // Capacité activable avec un nombre d'usage limités
       if (limitedUsage) {
         if (capacitySystem.properties.limitedUsage.use > 0) {
-          const newUse = capacitySystem.properties.limitedUsage.use > 0 ? capacitySystem.properties.limitedUsage.use - 1 : 0;
-          if (game.settings.get("cof", "useActionSound")) foundry.audio.AudioHelper.play({ src: "/systems/cof/sounds/gulp.mp3", volume: 0.8, autoplay: true, loop: false }, false);
-          return capacity.update({ "system.properties.limitedUsage.use": newUse }).then((capacity) => capacity.applyEffects(this, options));
+          const newUse =
+            capacitySystem.properties.limitedUsage.use > 0
+              ? capacitySystem.properties.limitedUsage.use - 1
+              : 0;
+          if (game.settings.get("cof", "useActionSound"))
+            foundry.audio.AudioHelper.play(
+              {
+                src: "/systems/cof/sounds/gulp.mp3",
+                volume: 0.8,
+                autoplay: true,
+                loop: false,
+              },
+              false
+            );
+          return capacity
+            .update({ "system.properties.limitedUsage.use": newUse })
+            .then((capacity) => capacity.applyEffects(this, options));
         }
-        return ui.notifications.warn(game.i18n.localize("COF.notification.ActivateEmptyCapacity"));
+        return ui.notifications.warn(
+          game.i18n.localize("COF.notification.ActivateEmptyCapacity")
+        );
       }
-      // Capacité à usage illimité      
+      // Capacité à usage illimité
       return capacity.applyEffects(this, options);
     }
   }
@@ -1227,5 +1470,63 @@ export class CofActor extends Actor {
   getEffectsFromItemId(itemId) {
     const criteria = "Item." + itemId;
     return this.effects.filter((effect) => effect.origin.endsWith(criteria));
+  }
+
+  async applyDamage(amount, options = {}) {
+    const hp = this.system.attributes.hp;
+    const newHp = Math.max(0, hp.value - amount);
+    await this.update({ "system.attributes.hp.value": newHp });
+
+    const reactions = this.items.filter(
+      (item) => item.type === "capacity" && item.system.reaction == true
+    );
+
+    if (reactions.length === 0) return;
+
+    // Afficher le dialog uniquement pour l'owner ou le contrôleur du token
+    const isOwnerOrController =
+      this.isOwner ||
+      this.getActiveTokens().some(
+        (t) => t.isControlled && t.actor?.id === this.id
+      );
+
+    if (!isOwnerOrController) return;
+
+    if (reactions.length === 1) {
+      const reaction = reactions[0];
+      const confirmed = await Dialog.confirm({
+        title: game.i18n.localize("COF.capacity.reaction"),
+        content: `<p>${game.i18n.format("COF.msg.useReaction", {
+          name: reaction.name,
+        })}</p>`,
+      });
+      if (confirmed)
+        await reaction.applyEffects(this, {
+          trigger: "damage",
+          amount,
+          ...options,
+        });
+      return;
+    }
+
+    const buttons = {};
+    reactions.forEach((reaction) => {
+      buttons[reaction.id] = {
+        label: reaction.name,
+        callback: () =>
+          reaction.applyEffects(this, {
+            trigger: "damage",
+            amount,
+            ...options,
+          }),
+      };
+    });
+
+    new Dialog({
+      title: game.i18n.localize("COF.capacity.reaction"),
+      content: `<p>${game.i18n.localize("COF.msg.chooseReaction")}</p>`,
+      buttons,
+      default: Object.keys(buttons)[0],
+    }).render(true);
   }
 }
