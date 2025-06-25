@@ -462,6 +462,7 @@ export class CofItemSheet extends ItemSheet {
       entries.push(["spell", item.system.spell]);
       entries.push(["ranged", item.system.ranged]);
       entries.push(["reaction", item.system.reaction]);
+      entries.push(["concentration", item.system.concentration]);
       entries.push(["limitedUsage", item.system.limitedUsage]);
       entries.push(["save", item.system.save]);
       entries.push(["activable", item.system.activable]);

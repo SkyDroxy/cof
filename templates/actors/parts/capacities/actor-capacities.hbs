@@ -9,6 +9,7 @@
                     <div class="item-detail">{{localize "COF.ui.rank"}}</div>
                     <div class="item-detail">{{localize "COF.capacity.limited"}}</div>
                     <div class="item-detail">{{localize "COF.capacity.reaction"}}</div>
+                    <div class="item-detail">{{localize "COF.capacity.concentration"}}</div>
                     <div class="item-detail">{{localize "COF.ui.spell"}}</div>
                     <div class="item-detail">{{localize "COF.capacity.usages"}}</div>
                     <div class="item-detail">{{localize "COF.capacity.actions"}}</div>
@@ -28,6 +29,7 @@
                         <div class="item-detail" {{#if capacity.system.noXpCost}}data-tooltip='{{localize "COF.ui.noXpCost"}}'{{/if}}>{{#if capacity.system.rank}}{{capacity.system.rank}}{{#if capacity.system.noXpCost}}*{{/if}}{{/if}}</div>
                         <div class="item-detail">{{#if capacity.system.limited}}L{{/if}}</div>
                         <div class="item-detail">{{#if capacity.system.reaction}}R{{/if}}</div>
+                        <div class="item-detail">{{#if capacity.system.concentration}}C{{/if}}</div>
                         <div class="item-detail">{{#if capacity.system.spell}}&#10033;{{/if}}</div>
                         <div class="item-detail capacity-qty" title="{{localize "COF.ui.modifyQuantity"}}">{{#if capacity.system.limitedUsage}}{{capacity.system.properties.limitedUsage.use}} / {{capacity.system.properties.limitedUsage.maxUse}}{{/if}}</div>
                         <div class="item-detail">
@@ -57,6 +59,7 @@
                                 {{#if capacity.system.spell}}<span class="tag">{{localize "COF.ui.spell"}}</span>{{/if}}
                                 {{#if capacity.system.ranged}}<span class="tag">{{localize "COF.properties.ranged"}}</span>{{/if}}
                                 {{#if capacity.system.reaction}}<span class="tag">{{localize "COF.properties.reaction"}}</span>{{/if}}
+                                {{#if capacity.system.concentration}}<span class="tag">{{localize "COF.properties.concentration"}}</span>{{/if}}
                                 {{#if capacity.system.limitedUsage}}<span class="tag">{{localize "COF.ui.limitedUsage"}}</span>{{/if}}
                                 {{#if capacity.system.save}}<span class="tag">{{localize "COF.ui.save"}}</span>{{/if}}
                                 {{#if capacity.system.activable}}<span class="tag">{{localize "COF.properties.activable"}}</span>{{/if}}

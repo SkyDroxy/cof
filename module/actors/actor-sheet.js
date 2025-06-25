@@ -370,6 +370,7 @@ export class CofActorSheet extends CofBaseSheet {
       spell: item.system.spell,
       ranged: item.system.properties.ranged,
       reaction: item.system.properties.reaction,
+      concentration: item.system.properties.concentration,
       limitedUsage: item.system.limitedUsage,
       save: item.system.save,
       activable: item.system.properties.activable,

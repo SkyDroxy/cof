@@ -456,6 +456,7 @@
       "spell": false,
       "ranged": false,
       "reaction": false,
+      "concentration": false,
       "limitedUsage": false,
       "save": false,
       "activable": false,
@@ -473,12 +474,8 @@
           "use": 0,
           "maxUse": 0
         },
-        "reaction": {
-          "type": "",
-          "stat": "",
-          "difficulty": "",
-          "text": ""
-        },
+        "reaction": {},
+        "concentration": {},
         "save": {
           "stat": "",
           "difficulty": "",

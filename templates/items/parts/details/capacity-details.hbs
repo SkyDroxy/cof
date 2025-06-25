@@ -15,6 +15,9 @@
             <input type="checkbox" name="system.reaction" {{checked system.reaction}}> {{localize "COF.properties.reaction"}}
         </label>
         <label class="checkbox">
+            <input type="checkbox" name="system.concentration" {{checked system.concentration}}> {{localize "COF.properties.concentration"}}
+        </label>
+        <label class="checkbox">
             <input type="checkbox" name="system.limitedUsage" {{checked system.limitedUsage}}> {{localize "COF.ui.limitedUsage"}} 
         </label>  
         <label class="checkbox">
@@ -63,6 +66,11 @@
 {{#if system.reaction}}
 <div class="form-group">
     <label>{{localize "COF.ui.reaction"}}</label>
+</div>
+{{/if}}
+{{#if system.concentration}}
+<div class="form-group">
+    <label>{{localize "COF.ui.concentration"}}</label>
 </div>
 {{/if}}
 {{#if system.limitedUsage}}
